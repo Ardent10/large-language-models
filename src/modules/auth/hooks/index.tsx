@@ -31,7 +31,6 @@ export function useAuthentication() {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const auth = useAuth();
-  // const { toast } = useToast();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async (authUser) => {
@@ -62,6 +61,10 @@ export function useAuthentication() {
 
   async function login(email: string, password: string) {
     try {
+      dispatch({
+        type: "setIsLoading",
+        payload: { isLoading: true },
+      });
       const res = await signInWithEmailAndPassword(auth, email, password);
       if (res.user) {
         const currentUserDoc = doc(db, "users", res.user.uid);
@@ -102,11 +105,20 @@ export function useAuthentication() {
           message: errorMessage,
         },
       });
+    } finally {
+      dispatch({
+        type: "setIsLoading",
+        payload: { isLoading: false },
+      });
     }
   }
 
   async function googleLogin() {
     try {
+      dispatch({
+        type: "setIsLoading",
+        payload: { isLoading: true },
+      });
       const provider = new GoogleAuthProvider();
       const res = await signInWithPopup(auth, provider);
       if (res.user) {
@@ -158,6 +170,11 @@ export function useAuthentication() {
           message: errorMessage,
         },
       });
+    } finally {
+      dispatch({
+        type: "setIsLoading",
+        payload: { isLoading: false },
+      });
     }
   }
   async function signup({
@@ -168,6 +185,10 @@ export function useAuthentication() {
     occupation,
   }: signupData) {
     try {
+      dispatch({
+        type: "setIsLoading",
+        payload: { isLoading: true },
+      });
       const res = await createUserWithEmailAndPassword(auth, email, password);
       const user = res.user;
       if (user) {
@@ -220,6 +241,11 @@ export function useAuthentication() {
           severity: "error",
           message: "Account Creation Failed" + errorMessage,
         },
+      });
+    } finally {
+      dispatch({
+        type: "setIsLoading",
+        payload: { isLoading: false },
       });
     }
   }

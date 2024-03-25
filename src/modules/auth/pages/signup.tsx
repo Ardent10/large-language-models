@@ -1,13 +1,18 @@
+import { PrimaryButton } from "@/modules/common/button";
 import { CustomSnackbar } from "@/modules/common/snackbar";
 import { VideoPlayer } from "@/modules/common/videoPlayer";
 import { useAppState } from "@/store";
-import { Box, Button, Grid, Typography } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
-import { Link } from "react-router-dom";
+import { Box, Grid, Typography } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import { SignupForm } from "../components/signupForm";
+import { useContext } from "react";
+import { ColorModeContext } from "@/modules/common/theme";
 
 export function SignupPage() {
+  const {mode} = useContext(ColorModeContext);
   const [state, dispatch] = useAppState();
+  const navigate = useNavigate();
   return (
     <>
       <CustomSnackbar
@@ -36,19 +41,13 @@ export function SignupPage() {
         />
       </Box>
       <Grid container className="h-screen">
-        <Link
-          to="/login"
-          className={
-            "rounded-md absolute right-4 top-4 md:right-8 md:top-8  border-black hover:bg-black  dark:hover:bg-[#40be35f7] border dark:border-green-600"
-          }
-        >
-          <Button
-            className="text-black text-sm capitalize dark:text-green-700  hover:text-white"
-            endIcon={<LoginIcon />}
-          >
-            Login
-          </Button>
-        </Link>
+        <PrimaryButton
+          onClick={() => navigate("/login")}
+          variant={mode == "dark" ? "outlined" : "contained"}
+          className="w-auto absolute top-8 right-8 light:text-black light:bg-transparent text-sm capitalize dark:text-white dark:hover:text-white"
+          endIcon={<LoginIcon />}
+          title="Login"
+        />
         <Grid item xs={6}>
           <div className="relative hidden h-full flex-col bg-muted p-10 lg:flex dark:border-r">
             <div className="absolute inset-0" />
@@ -80,10 +79,7 @@ export function SignupPage() {
             py={2}
             className="flex flex-col items-center justify-center"
           >
-            <Typography
-              variant="h1"
-              className="text-6xl font-bold dark:text-[#47f738]"
-            >
+            <Typography variant="h1" className="text-6xl font-bold">
               Create an account
             </Typography>
             <Typography variant="body2" className="text-sm text-center">
@@ -98,7 +94,7 @@ export function SignupPage() {
               By clicking signup, you agree to our{" "}
               <Link
                 to="/terms"
-                className="underline underline-offset-4 hover:text-primary"
+                className="underline underline-offset-4 hover:text-primary "
               >
                 Terms of Service
               </Link>{" "}

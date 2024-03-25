@@ -1,6 +1,6 @@
 import { AppStateProvider, globalReducers, initialState } from "@/store";
 import { ColorModeContextProvider } from "@modules/common/theme";
-import { StyledEngineProvider } from "@mui/material";
+import { CssBaseline, StyledEngineProvider } from "@mui/material";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -14,6 +14,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <AppStateProvider reducer={globalReducers} initialState={initialState}>
           <ColorModeContextProvider>
             <App />
+            <CssBaseline />
           </ColorModeContextProvider>
         </AppStateProvider>
       </BrowserRouter>

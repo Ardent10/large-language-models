@@ -37,7 +37,6 @@ export function PrimaryButton(props: props) {
   useEffect(() => {
     setIsLoading(state?.isLoading ? state?.isLoading : false);
   }, [state?.isLoading]);
-
   return (
     <Button
       disableElevation={props.disableElevation && props.disableElevation}
@@ -50,6 +49,12 @@ export function PrimaryButton(props: props) {
       endIcon={props.endIcon}
       fullWidth
       className={props.className}
+      sx={{
+        ":hover": {
+          backgroundColor: props.hoverColor ? props.hoverColor : "#40be35f7",
+          color: "#FFF",
+        },
+      }}
     >
       <>
         {props?.showLoaderonBtn && isLoading ? (

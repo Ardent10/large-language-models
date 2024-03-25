@@ -1,6 +1,8 @@
 import { Grid, TextField } from "@mui/material";
+import { useContext } from "react";
 import { Controller } from "react-hook-form";
 import { Error } from "../error";
+import { ColorModeContext } from "../theme";
 import { InputLabel } from "./inputLabel";
 
 interface props {
@@ -52,6 +54,7 @@ export const InputField = ({
   minDate,
   className,
 }: props) => {
+  const { mode } = useContext(ColorModeContext);
   return (
     <Controller
       name={name}
@@ -85,9 +88,11 @@ export const InputField = ({
             <Grid item xs={direction === "row" ? inputFieldGridSpace : 12}>
               <TextField
                 sx={{
-                  border: "1px solid green",
                   borderRadius: "5px",
-                  outline: "none",
+                  ".MuiOutlinedInput-notchedOutline": {
+                    border:
+                      mode === "dark" ? "1px solid white" : "1px solid black",
+                  },
                 }}
                 type={type}
                 placeholder={placeholder}

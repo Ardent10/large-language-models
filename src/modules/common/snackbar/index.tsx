@@ -62,7 +62,7 @@ export function CustomSnackbar({
       <Alert
         onClose={handleClose}
         severity={severity}
-        sx={{ width: "100%", fontSize: 14,color:"white" }}
+        sx={{ width: "100%", fontSize: 14, color: "white" }}
       >
         {message}
       </Alert>

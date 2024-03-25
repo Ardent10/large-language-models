@@ -1,18 +1,23 @@
 import { useAppState } from "@/store";
+import { NavbarMenu } from "@/utils/constants";
 import { DarkMode } from "@common/theme";
+import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LoginIcon from "@mui/icons-material/Login";
 import {
   AppBar,
   Box,
   Button,
+  ClickAwayListener,
   IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
   Toolbar,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { NavbarMenu } from "../../../utils/constants";
 import { CustomTooltip } from "../tooltip";
 import { ProfileMenu } from "./profileMenu";
 
@@ -23,6 +28,18 @@ interface HeaderProps {
 export function Header(props: HeaderProps) {
   const [state] = useAppState();
   const [openSidebar, setSidebarOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>, index: number) => {
+    setAnchorEl(event.currentTarget);
+    setOpenIndex(index);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+    setOpenIndex(null);
+  };
 
   const handleSidebarOpen = () => {
     setSidebarOpen(true);
@@ -36,9 +53,9 @@ export function Header(props: HeaderProps) {
   return (
     <AppBar
       position="absolute"
-      className="flex absolute top-4 left-8  w-[95%] bg-transparent bg-opacity-50 backdrop-blur-lg z-10 items-center justify-between px-2 border border-green-600 rounded-xl lg:px-7.5 xl:px-4 max-lg:py-4"
+      className="flex absolute top-4 left-8  w-[95%] bg-transparent bg-opacity-50 backdrop-blur-lg z-10 items-center justify-between  border border-green-600 rounded-xl lg:px-7.5 xl:px-4 max-lg:py-4"
     >
-      <Toolbar className="flex justify-between w-full">
+      <Toolbar className="flex justify-between w-full px-2">
         {/* <Sidebar open={openSidebar} /> */}
         <Link to="/">
           <Box id="logo" className="flex items-center">
@@ -48,7 +65,60 @@ export function Header(props: HeaderProps) {
             </Typography>
           </Box>
         </Link>
-        <Box id="main-navigation" className="flex flex-row">
+        <Box
+          id="main-navigation"
+          className="flex flex-row items-center justify-between w-1/3"
+        >
+          {NavbarMenu.map((navItem, index) => (
+            <ClickAwayListener onClickAway={handleClose}>
+              <Box
+                key={index}
+                className=" flex flex-row items-center justify-between"
+              >
+                <Link
+                  to={navItem.href}
+                  className="text-lg"
+                  onMouseOver={(e) => handleClick(e, index)}
+                >
+                  <Typography
+                    variant="body1"
+                    aria-controls={`menu-${index}`}
+                    aria-haspopup="true"
+                  >
+                    {navItem.title}
+                    {openIndex === index ? <ExpandLess /> : <ExpandMore />}
+                  </Typography>
+                </Link>
+                <Menu
+                  id={`menu-${index}`}
+                  anchorEl={anchorEl}
+                  open={openIndex === index}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  // getContentAnchorEl={null}
+                  onMouseLeave={handleClose}
+                >
+                  {navItem.submenu.map((subItem, subIndex) => (
+                    <MenuItem key={subIndex}>
+                      <ListItemIcon></ListItemIcon>
+                      <Typography variant="body2">
+                        {subItem.submenuLabel}
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            </ClickAwayListener>
+          ))}
+
+          {/*
           {NavbarMenu.map((navItem) => (
             <Box key={navItem.title}>
               <Link to={navItem.href} className="text-lg">
@@ -57,7 +127,7 @@ export function Header(props: HeaderProps) {
                 </Typography>
               </Link>
               <Box className="border-green-600 border dark:bg-black rounded-xl z-10">
-                {/*
+
                 <ul className="p-4">
 
                   {navItem.submenu.map((submenuItem) => (
@@ -70,10 +140,11 @@ export function Header(props: HeaderProps) {
                     </ListItem>
                   ))}
                 </ul>
-                  */}
+
               </Box>
             </Box>
           ))}
+                  */}
         </Box>
 
         <Box id="header-buttons" className="flex items-center justify-center">

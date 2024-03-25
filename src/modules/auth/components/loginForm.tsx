@@ -15,7 +15,6 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
   const { login, googleLogin } = useAuthentication();
   const [state] = useAppState();
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const defaultValues = {
     email: "neo@llm.com",
     password: "test@123",
@@ -32,15 +31,12 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
   }, [state?.userProfile]);
 
   const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true);
     await login(data.email, data.password);
-    setIsLoading(false);
+
   });
 
   const handleGoogleLogin = async () => {
-    setIsLoading(true);
     await googleLogin();
-    setIsLoading(false);
   };
 
   return (
@@ -71,8 +67,8 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
               variant="contained"
               title="Login"
               type="submit"
-              disabled={isLoading}
-              isLoading={isLoading}
+              disabled={state?.isLoading}
+              showLoaderonBtn
               className="text-sm py-2 text-white bg-[#40be35f7] dark:text-white dark:hover:bg-white dark:hover:text-black capitalize"
             />
           </Grid>
@@ -84,7 +80,7 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
+            <span className="bg-background bg-black px-2 text-muted-foreground">
               Or continue with
             </span>
           </div>
@@ -92,14 +88,14 @@ export function LoginForm({ className, ...props }: UserAuthFormProps) {
       </Grid>
       <Grid item xs={12}>
         <PrimaryButton
-          variant="contained"
+          variant="outlined"
           type="button"
           title="Google"
-          disabled={isLoading}
-          isLoading={isLoading}
+          showLoaderonBtn={true}
+          disabled={state?.isLoading}
           startIcon={<img src="/assets/google.svg" height={25} width={25} />}
           onClick={handleGoogleLogin}
-          className="text-sm py-2 text-white bg-black dark:text-white dark:hover:bg-white dark:hover:text-black capitalize"
+          className="text-sm py-2 text-white  dark:hover:bg-white dark:hover:text-black capitalize"
         />
       </Grid>
     </Grid>

@@ -1,6 +1,7 @@
 import { RichTextEditor } from "@/modules/common/editor";
 import { InputField } from "@/modules/common/input";
 import { SelectField } from "@/modules/common/select";
+import { ChipSelector } from "@/modules/common/select/chipSelector";
 import { useForm } from "react-hook-form";
 
 export interface Model {
@@ -37,6 +38,85 @@ export function CreateModelForm() {
     watch("website"),
     watch("access_type")
   );
+
+    const tags = [
+      {
+        id: 1,
+        label: "Appwrite",
+      },
+      {
+        id: 2,
+        label: "BaaS",
+      },
+      {
+        id: 3,
+        label: "TypeScript",
+      },
+      {
+        id: 4,
+        label: "JavaScript",
+      },
+      {
+        id: 5,
+        label: "NextJs",
+      },
+      {
+        id: 6,
+        label: "React",
+      },
+      {
+        id: 7,
+        label: "Material UI",
+      },
+      {
+        id: 8,
+        label: "HTML",
+      },
+      {
+        id: 9,
+        label: "CSS",
+      },
+      {
+        id: 10,
+        label: "ChatGPT",
+      },
+      {
+        id: 11,
+        label: "Node.js",
+      },
+      {
+        id: 12,
+        label: "Express.js",
+      },
+      {
+        id: 13,
+        label: "MongoDB",
+      },
+      {
+        id: 14,
+        label: "Python",
+      },
+      {
+        id: 15,
+        label: "Docker",
+      },
+      {
+        id: 16,
+        label: "Kubernetes",
+      },
+      {
+        id: 17,
+        label: "AWS",
+      },
+      {
+        id: 18,
+        label: "GraphQL",
+      },
+      {
+        id: 19,
+        label: "Vue.js",
+      },
+    ];
 
   const onSubmit = handleSubmit(async (data) => {
     const content = getValues("content");
@@ -102,14 +182,12 @@ export function CreateModelForm() {
             type="text"
             className="w-full"
           />
-          <InputField
+          <ChipSelector
             control={control}
             name="tags"
             label="Tags"
-            placeholder="Enter tags"
             required
-            type="text"
-            className="w-full"
+            data={tags}
           />
         </div>
 

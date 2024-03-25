@@ -28,7 +28,6 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
   }, [state?.userProfile?.uid]);
 
   const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true);
     await signup({
       firstName: data.firstName,
       lastName: data.lastName,
@@ -36,13 +35,10 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
       password: data.password,
       occupation: data.occupation,
     });
-    setIsLoading(false);
   });
 
   const handleGoogleSignup = async () => {
-    setIsLoading(true);
     await googleLogin();
-    setIsLoading(false);
   };
 
   return (
@@ -123,8 +119,8 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
               variant="contained"
               title="Signup"
               type="submit"
-              disabled={isLoading}
-              isLoading={isLoading}
+              disabled={state?.isLoading}
+              showLoaderonBtn={true}
               className="text-sm py-2 text-white bg-[#40be35f7] dark:text-white dark:hover:bg-white dark:hover:text-black capitalize"
             />
           </Grid>
@@ -135,8 +131,8 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
+          <div className="relative flex  justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground bg-black">
               Or continue with
             </span>
           </div>
@@ -144,14 +140,14 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
       </Grid>
       <Grid item xs={12}>
         <PrimaryButton
-          variant="contained"
+          variant="outlined"
           type="button"
           title="Google"
-          disabled={isLoading}
-          isLoading={isLoading}
+          disabled={state?.isLoading}
+          showLoaderonBtn={true}
           startIcon={<img src="/assets/google.svg" height={25} width={25} />}
           onClick={handleGoogleSignup}
-          className="text-sm py-2 text-white bg-black dark:text-white dark:hover:bg-white dark:hover:text-black capitalize"
+          className="text-sm py-2 text-white  dark:hover:bg-white dark:hover:text-black capitalize"
         />
       </Grid>
     </Grid>

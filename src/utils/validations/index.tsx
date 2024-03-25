@@ -43,7 +43,7 @@ const SignupSchema = z
     published_date: z.string().min(2, { message: "❌ Too short" }),
     likes: z.string(),
     parameters: z.string().min(2, { message: "❌ Too short" }),
-    tags: z.string(),
+    tags: z.array(z.string()),
     status: z.string().min(2, { message: "❌ Too short" }),
     provider: z.string().min(2, { message: "❌ Too short" }),
     website: z.string().url({ message: "❌ Invalid URL" }),

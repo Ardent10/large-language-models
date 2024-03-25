@@ -37,12 +37,19 @@ export const ColorModeContextProvider = ({ children }: any) => {
         },
         palette: {
           mode,
+          common: {
+            black: "#000",
+            white: "#fff",
+          },
+
           text: {
             primary: mode === "dark" ? "#fff" : "#000",
             secondary: mode === "dark" ? "#fff" : "#000",
           },
           primary: {
             main: "#40be35f7",
+            light: "#40be35f7",
+            dark: "#FFF",
           },
           secondary: {
             main: "#FFFFE",
@@ -50,7 +57,6 @@ export const ColorModeContextProvider = ({ children }: any) => {
           background: {
             default: mode === "dark" ? "#09090b" : "#FFF",
             paper: mode === "dark" ? "#09090b" : "#FFF",
-            
           },
         },
       }),
@@ -82,12 +88,12 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
       },
       "& + .MuiSwitch-track": {
         opacity: 1,
-        backgroundColor: theme.palette.mode === "dark" ? "#8796A5" : "#aab4be",
+        backgroundColor: "#fff",
       },
     },
   },
   "& .MuiSwitch-thumb": {
-    backgroundColor: theme.palette.mode === "dark" ? "#003892" : "#001e3c",
+    backgroundColor: "#09090b",
     width: 32,
     height: 32,
     "&:before": {
@@ -106,7 +112,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
   "& .MuiSwitch-track": {
     opacity: 1,
-    backgroundColor: theme.palette.mode === "dark" ? "#8796A5" : "#aab4be",
+    backgroundColor: "#fff",
     borderRadius: 20 / 2,
   },
 }));

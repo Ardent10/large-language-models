@@ -1,13 +1,18 @@
+import { PrimaryButton } from "@/modules/common/button";
 import { CustomSnackbar } from "@/modules/common/snackbar";
 import { VideoPlayer } from "@/modules/common/videoPlayer";
 import { useAppState } from "@/store";
 import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
-import { Box, Button, Grid, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Grid, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { LoginForm } from "../components/loginForm";
+import { ColorModeContext } from "@/modules/common/theme";
+import { useContext } from "react";
 
 export function LoginPage() {
   const [state, dispatch] = useAppState();
+  const { mode } = useContext(ColorModeContext);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -37,19 +42,14 @@ export function LoginPage() {
         />
       </Box>
       <Grid container className="h-screen">
-        <Link
-          to="/signup"
-          className={
-            "rounded-md absolute right-4 top-4 md:right-8 md:top-8  border-black hover:bg-black  dark:hover:bg-[#40be35f7] border dark:border-green-600"
-          }
-        >
-          <Button
-            className="text-black text-sm capitalize dark:text-green-700  hover:text-white"
-            endIcon={<PersonAddAltRoundedIcon />}
-          >
-            Signup
-          </Button>
-        </Link>
+        <PrimaryButton
+          onClick={() => navigate("/signup")}
+          variant={mode == "dark" ? "outlined" : "contained"}
+          className="w-auto absolute top-8 right-8 light:text-black light:bg-transparent text-sm capitalize dark:text-white dark:hover:text-white"
+          endIcon={<PersonAddAltRoundedIcon />}
+          title="Sign Up"
+        />
+
         <Grid item xs={6}>
           <div className="relative hidden h-full flex-col bg-muted p-10 lg:flex dark:border-r">
             <div className="absolute inset-0" />
