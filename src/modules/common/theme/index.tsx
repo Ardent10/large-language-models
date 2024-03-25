@@ -15,7 +15,7 @@ export const ColorModeContext = createContext<IColorModeContext>({
 });
 
 export const ColorModeContextProvider = ({ children }: any) => {
-  const [mode, setMode] = useState<"light" | "dark">("light");
+  const [mode, setMode] = useState<"light" | "dark">("dark");
 
   const colorMode = useMemo(
     () => ({
@@ -38,7 +38,7 @@ export const ColorModeContextProvider = ({ children }: any) => {
         palette: {
           mode,
           text: {
-            primary: mode === "dark" ? "#40be35f7" : "#000",
+            primary: mode === "dark" ? "#fff" : "#000",
             secondary: mode === "dark" ? "#fff" : "#000",
           },
           primary: {
@@ -48,8 +48,9 @@ export const ColorModeContextProvider = ({ children }: any) => {
             main: "#FFFFE",
           },
           background: {
-            default: mode === "dark" ? "#1b1b27" : "#FFF",
-            paper: mode === "dark" ? "#1b1b27" : "#FFF",
+            default: mode === "dark" ? "#09090b" : "#FFF",
+            paper: mode === "dark" ? "#09090b" : "#FFF",
+            
           },
         },
       }),

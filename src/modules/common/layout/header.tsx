@@ -1,12 +1,27 @@
+import { useAppState } from "@/store";
 import { DarkMode } from "@common/theme";
-import { AppBar, Toolbar, Typography } from "@mui/material";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import LoginIcon from "@mui/icons-material/Login";
+import {
+  AppBar,
+  Box,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { NavbarMenu } from "../../../utils/constants";
+import { CustomTooltip } from "../tooltip";
 import { ProfileMenu } from "./profileMenu";
-import { Sidebar } from "./sidebar";
 
-export function Header() {
+interface HeaderProps {
+  mode: string;
+}
+
+export function Header(props: HeaderProps) {
+  const [state] = useAppState();
   const [openSidebar, setSidebarOpen] = useState(false);
 
   const handleSidebarOpen = () => {
@@ -17,53 +32,34 @@ export function Header() {
     setSidebarOpen(false);
   };
 
+  const githubIconColor = props.mode === "dark" ? "#FFF" : "#000";
   return (
-    <AppBar position="absolute" className="px-2">
-      <Toolbar className="flex justify-between">
-        <Sidebar open={openSidebar} />
-        <div id="logo">
-          <Link to="/">
-            <Typography variant="h6" component="div">
+    <AppBar
+      position="absolute"
+      className="flex absolute top-4 left-8  w-[95%] bg-transparent bg-opacity-50 backdrop-blur-lg z-10 items-center justify-between px-2 border border-green-600 rounded-xl lg:px-7.5 xl:px-4 max-lg:py-4"
+    >
+      <Toolbar className="flex justify-between w-full">
+        {/* <Sidebar open={openSidebar} /> */}
+        <Link to="/">
+          <Box id="logo" className="flex items-center">
+            <img src="/assets/logo.png" height={40} width={40} />
+            <Typography variant="h5" fontWeight={600}>
               Large Language Models (LLM)
             </Typography>
-          </Link>
-        </div>
-        <div id="main-navigation" className="flex flex-row">
+          </Box>
+        </Link>
+        <Box id="main-navigation" className="flex flex-row">
           {NavbarMenu.map((navItem) => (
-            <div key={navItem.title}>
+            <Box key={navItem.title}>
               <Link to={navItem.href} className="text-lg">
                 <Typography variant="h6" component="div">
                   {navItem.title}
                 </Typography>
               </Link>
-              <div
-                className="border-green-600 border dark:bg-black rounded-xl z-10"
-                style={{
-                  width: "400px",
-                  gridTemplateColumns: "repeat(2, 1fr)",
-                  maxWidth: "600px",
-                }}
-              >
+              <Box className="border-green-600 border dark:bg-black rounded-xl z-10">
+                {/*
                 <ul className="p-4">
-                  <li>
-                    <NavLink to="/models" className="Callout">
-                      <svg
-                        aria-hidden
-                        width="38"
-                        height="38"
-                        viewBox="0 0 25 25"
-                        fill="white"
-                      >
-                        <path d="M12 25C7.58173 25 4 21.4183 4 17C4 12.5817 7.58173 9 12 9V25Z"></path>
-                        <path d="M12 0H4V8H12V0Z"></path>
-                        <path d="M17 8C19.2091 8 21 6.20914 21 4C21 1.79086 19.2091 0 17 0C14.7909 0 13 1.79086 13 4C13 6.20914 14.7909 8 17 8Z"></path>
-                      </svg>
-                      <div className="CalloutHeading">Radix Primitives</div>
-                      <p className="CalloutText">
-                        Unstyled, accessible components for React.
-                      </p>
-                    </NavLink>
-                  </li>
+
                   {navItem.submenu.map((submenuItem) => (
                     <ListItem
                       key={submenuItem.submenuLabel}
@@ -74,19 +70,40 @@ export function Header() {
                     </ListItem>
                   ))}
                 </ul>
-              </div>
-            </div>
+                  */}
+              </Box>
+            </Box>
           ))}
-        </div>
-        <div id="header-buttons" className="flex gap-2">
-          <ProfileMenu />
-          <div>
-            <Link to="/login" className="button-styles">
-              Login
-            </Link>
-          </div>
+        </Box>
+
+        <Box id="header-buttons" className="flex items-center justify-center">
+          <CustomTooltip placement="bottom" label="⭐ Star on Github">
+            <IconButton
+              size="medium"
+              href="https://github.com/Ardent10/DevVerse"
+            >
+              <GitHubIcon sx={{ color: githubIconColor }} fontSize="large" />
+            </IconButton>
+          </CustomTooltip>
           <DarkMode />
-        </div>
+          {!state?.userProfile?.id ? (
+            <Link
+              to="/login"
+              className={
+                "rounded-sm  border-black bg-black  hover:bg-[#40be35f7] border px-2 py-1 hover:border-green-600"
+              }
+            >
+              <Button
+                className="text-white text-sm capitalize dark:text-green-700  "
+                endIcon={<LoginIcon />}
+              >
+                Login
+              </Button>
+            </Link>
+          ) : (
+            <ProfileMenu />
+          )}
+        </Box>
       </Toolbar>
     </AppBar>
   );
