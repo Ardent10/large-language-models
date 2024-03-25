@@ -6,7 +6,7 @@ import { Model, useModels } from "../../hooks";
 
 export function AllModels() {
   const [state] = useAppState();
-  const { getModels, loading, error } = useModels();
+  const { getModels, loading,} = useModels();
 
   useEffect(() => {
     async function fetchModelsData() {

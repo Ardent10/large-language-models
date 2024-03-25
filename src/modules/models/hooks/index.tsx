@@ -75,11 +75,14 @@ export function useModels() {
       setLoading(false);
     } catch (error) {
       const currentError = error as Error;
-      // toast({
-      //   title: "Error",
-      //   description: currentError.message,
-      //   variant: "destructive",
-      // });
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: currentError.message,
+        },
+      });
       setLoading(false);
     }
   }
@@ -96,11 +99,14 @@ export function useModels() {
       return downloadURL;
     } catch (error) {
       const currentError = error as Error;
-      // toast({
-      //   title: "Error",
-      //   description: currentError.message,
-      //   variant: "destructive",
-      // });
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: currentError.message,
+        },
+      });
       setLoading(false);
     }
   }
@@ -115,21 +121,27 @@ export function useModels() {
         header_image: imageUrl,
       });
       if (res.id) {
-        // toast({
-        //   title: "Success",
-        //   description: "Model created successfully",
-        //   variant: "success",
-        // });
+        dispatch({
+          type: "setToggleSnackbar",
+          payload: {
+            open: true,
+            severity: "success",
+            message: "Model created successfully",
+          },
+        });
       }
       await getModels();
       navigate("/models");
     } catch (error) {
       const currentError = error as Error;
-      // toast({
-      //   title: "Error",
-      //   description: currentError.message,
-      //   variant: "destructive",
-      // });
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: currentError.message,
+        },
+      });
     } finally {
       setLoading(false);
     }
@@ -141,14 +153,25 @@ export function useModels() {
       const modelsCollection = collection(db, "blogs");
       const modelDocRef = doc(modelsCollection, model.id);
       await updateDoc(modelDocRef, { ...model });
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "success",
+          message: "Model updated successfully",
+        },
+      });
       await getModels();
     } catch (error) {
       const currentError = error as Error;
-      // toast({
-      //   title: "Error",
-      //   description: currentError.message,
-      //   variant: "destructive",
-      // });
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: currentError.message,
+        },
+      });
     } finally {
       setLoading(false);
     }
@@ -162,14 +185,26 @@ export function useModels() {
       await updateDoc(modelDocRef, {
         status: "deleted",
       });
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "success",
+          message: "Model deleted successfully",
+        },
+      });
+
       await getModels();
     } catch (error) {
       const currentError = error as Error;
-      // toast({
-      //   title: "Error",
-      //   description: currentError.message,
-      //   variant: "destructive",
-      // });
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: currentError.message,
+        },
+      });
     } finally {
       setLoading(false);
     }
@@ -204,11 +239,14 @@ export function useModels() {
       return model;
     } catch (error) {
       const currentError = error as Error;
-      // toast({
-      //   title: "Error",
-      //   description: currentError.message,
-      //   variant: "destructive",
-      // });
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: currentError.message,
+        },
+      });
       setLoading(false);
     }
   }
@@ -219,7 +257,7 @@ export function useModels() {
       const model = await getModelById(id);
       if (model) {
         const modelsCollection = collection(db, "blogs");
-        const modelDocRef = doc(modelsCollection, id); // Create a reference to the document
+        const modelDocRef = doc(modelsCollection, id);
         await updateDoc(modelDocRef, {
           likes: model.likes + 1,
         });
@@ -227,11 +265,15 @@ export function useModels() {
       }
     } catch (error) {
       const currentError = error as Error;
-      // toast({
-      //   title: "Error",
-      //   description: currentError.message,
-      //   variant: "destructive",
-      // });
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: currentError.message,
+        },
+      });
+
       setLoading(false);
     }
   }
