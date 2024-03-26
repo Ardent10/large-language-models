@@ -4,7 +4,6 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import HomeIcon from "@mui/icons-material/Home";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import {
   Badge,
   Divider,
@@ -22,7 +21,7 @@ interface props {
   mode?: string;
 }
 
-export  function Sidebar(props: props) {
+export function Sidebar(props: props) {
   const iconColor = props.mode === "dark" ? "#FFF" : "";
 
   const menuItems = [
@@ -44,24 +43,18 @@ export  function Sidebar(props: props) {
     },
     {
       id: 3,
-      title: "Friends",
-      icon: <PeopleAltIcon sx={{ color: iconColor }} />,
-      link: "/friends",
-    },
-    {
-      id: 4,
       title: "Bookmarks",
       icon: <BookmarkIcon sx={{ color: iconColor }} />,
       link: "/bookmarks",
     },
     {
-      id: 5,
+      id: 4,
       title: "Events",
       icon: <CalendarMonthIcon sx={{ color: iconColor }} />,
       link: "/events",
     },
     {
-      id: 6,
+      id: 5,
       title: "Profile",
       icon: <AccountCircleIcon sx={{ color: iconColor }} />,
       link: "/profile",

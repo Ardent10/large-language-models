@@ -58,6 +58,8 @@ export function CreateModelForm() {
     console.log("Submitted data:", data);
     createModel(data);
   });
+
+  console.log("CREATE=>", state.parentModels);
   return (
     <>
       <CustomSnackbar

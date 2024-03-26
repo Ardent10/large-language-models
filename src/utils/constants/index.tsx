@@ -27,7 +27,7 @@ export const NavbarMenu: {
   },
   {
     title: "Features",
-    href: "/docs/primitives/scroll-area",
+    href: "/",
     description: "Visually or semantically separates content.",
     submenu: [{ submenuLabel: "roadmap" }, { submenuLabel: "updates" }],
   },

@@ -10,18 +10,13 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-type content = {
-  type?: string;
-  value: string;
-};
 
 export interface Model {
   id?: string;
   name: string;
-  header_image: File;
+  header_image: File ;
   content: string;
   published_date: string;
   created_at: string;
@@ -34,43 +29,55 @@ export interface Model {
   access_type: string;
 }
 
+const MODELS_COLLECTION = import.meta.env.VITE_FIREBASE_MODEL_COLLECTION_NAME;
+
 export function useModels() {
   const db = useFirestore();
   const storage = useStorage();
   const navigate = useNavigate();
   const [state, dispatch] = useAppState();
-  const [loading, setLoading] = useState<boolean>(true);
-  const MODELS_COLLECTION = import.meta.env.VITE_FIREBASE_MODEL_COLLECTION_NAME;
-  useEffect(() => {
-    getModels();
+  const [loading, setLoading] = useState<boolean>(false);
 
-    return () => {};
-  }, []);
+  // useEffect(() => {
+  //   if (!state?.parentModels) {
+  //     getModels();
+  //   } else {
+  //     setLoading(false);
+  //   }
+  //   return () => {};
+  // }, []);
 
   async function getModels() {
+    console.log("AYA??");
     try {
       setLoading(true);
       const modelsCollection = await collection(db, MODELS_COLLECTION);
       const modelsQuery = query(modelsCollection);
       const snapshot = await getDocs(modelsQuery);
-      const modelsData: Model[] = snapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
-          name: data.name,
-          header_image: data.header_image,
-          tags: data.tags,
-          provider: data.provider,
-          website: data.website,
-          published_date: data.published_date,
-          content: data.content,
-          created_at: data.created_at,
-          likes: data.likes,
-          parameters: data.parameters,
-          status: data.status,
-          access_type: data.access_type,
-        };
-      });
+      const modelsData: Model[] = snapshot.docs
+        .map((doc) => {
+          const data = doc.data();
+          return {
+            id: doc.id,
+            name: data.name,
+            header_image: data.header_image,
+            tags: data.tags,
+            provider: data.provider,
+            website: data.website,
+            published_date: data.published_date,
+            content: data.content,
+            created_at: data.created_at,
+            likes: data.likes,
+            parameters: data.parameters,
+            status: data.status,
+            access_type: data.access_type,
+          };
+        })
+        .sort(
+          (a, b) =>
+            new Date(b.published_date).getTime() -
+            new Date(a.published_date).getTime()
+        );
       dispatch({ type: "setParentModels", payload: modelsData });
       setLoading(false);
     } catch (error) {
@@ -113,10 +120,10 @@ export function useModels() {
 
   async function createModel(model: Model) {
     try {
-    dispatch({
-      type: "setIsLoading",
-      payload: { isLoading: true },
-    });
+      dispatch({
+        type: "setIsLoading",
+        payload: { isLoading: true },
+      });
       const imageUrl = await uploadImage(model.header_image as any);
       const modelsCollection = collection(db, MODELS_COLLECTION);
       const res = await addDoc(modelsCollection, {
@@ -142,7 +149,8 @@ export function useModels() {
         payload: {
           open: true,
           severity: "error",
-          message: "An error occurred while creating the model. Please try again.",
+          message:
+            "An error occurred while creating the model. Please try again.",
         },
       });
     } finally {
