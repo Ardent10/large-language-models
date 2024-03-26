@@ -8,18 +8,15 @@ import {
   AppBar,
   Box,
   Button,
-  ClickAwayListener,
   IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem,
   Toolbar,
   Typography,
 } from "@mui/material";
-import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { CustomTooltip } from "../tooltip";
 import { ProfileMenu } from "./profileMenu";
+import { Logo } from "./logo";
 
 interface HeaderProps {
   mode: string;
@@ -27,7 +24,7 @@ interface HeaderProps {
 
 export function Header(props: HeaderProps) {
   const [state] = useAppState();
-  const [openSidebar, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -38,8 +35,11 @@ export function Header(props: HeaderProps) {
 
   const handleClose = () => {
     setAnchorEl(null);
+
     setOpenIndex(null);
   };
+
+  const [openSidebar, setSidebarOpen] = useState(false);
 
   const handleSidebarOpen = () => {
     setSidebarOpen(true);
@@ -53,105 +53,52 @@ export function Header(props: HeaderProps) {
   return (
     <AppBar
       position="absolute"
-      className="flex absolute top-4 left-8  w-[95%] bg-transparent bg-opacity-50 backdrop-blur-lg z-10 items-center justify-between  border border-green-600 rounded-xl lg:px-7.5 xl:px-4 max-lg:py-4"
+      className="flex absolute top-4 bg-none left-8  w-[95%] bg-transparent bg-opacity-50 backdrop-blur-lg z-10 items-center justify-between  border border-green-600 rounded-xl lg:px-7.5 xl:px-4 max-lg:py-4"
     >
-      <Toolbar className="flex justify-between w-full px-2">
+      <Toolbar
+        className="flex justify-between w-full px-2"
+        onMouseLeave={handleClose}
+      >
         {/* <Sidebar open={openSidebar} /> */}
-        <Link to="/">
-          <Box id="logo" className="flex items-center">
-            <img src="/assets/logo.png" height={40} width={40} />
-            <Typography variant="h5" fontWeight={600}>
-              Large Language Models (LLM)
-            </Typography>
-          </Box>
-        </Link>
+        <Logo/>
         <Box
           id="main-navigation"
           className="flex flex-row items-center justify-between w-1/3"
+          onMouseLeave={handleClose}
         >
-          {NavbarMenu.map((navItem, index) => (
-            <ClickAwayListener onClickAway={handleClose}>
-              <Box
-                key={index}
-                className=" flex flex-row items-center justify-between"
-              >
-                <Link
-                  to={navItem.href}
+          <Box className="flex flex-row items-center justify-between">
+            {NavbarMenu.map((navItem, index) => (
+              <React.Fragment key={index}>
+                <Button
+                  aria-owns={anchorEl ? `menu-${index}` : undefined}
+                  aria-haspopup="true"
                   className="text-lg"
-                  onMouseOver={(e) => handleClick(e, index)}
+                  onMouseEnter={(e) => handleClick(e, index)}
+                  onClick={() => navigate(navItem.href)}
                 >
                   <Typography
                     variant="body1"
                     aria-controls={`menu-${index}`}
                     aria-haspopup="true"
+                    fontSize={14}
+                    fontWeight={500}
                   >
                     {navItem.title}
                     {openIndex === index ? <ExpandLess /> : <ExpandMore />}
                   </Typography>
-                </Link>
-                <Menu
-                  id={`menu-${index}`}
-                  anchorEl={anchorEl}
-                  open={openIndex === index}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "left",
-                  }}
-                  // getContentAnchorEl={null}
-                  onMouseLeave={handleClose}
-                >
-                  {navItem.submenu.map((subItem, subIndex) => (
-                    <MenuItem key={subIndex}>
-                      <ListItemIcon></ListItemIcon>
-                      <Typography variant="body2">
-                        {subItem.submenuLabel}
-                      </Typography>
-                    </MenuItem>
-                  ))}
-                </Menu>
-              </Box>
-            </ClickAwayListener>
-          ))}
-
-          {/*
-          {NavbarMenu.map((navItem) => (
-            <Box key={navItem.title}>
-              <Link to={navItem.href} className="text-lg">
-                <Typography variant="h6" component="div">
-                  {navItem.title}
-                </Typography>
-              </Link>
-              <Box className="border-green-600 border dark:bg-black rounded-xl z-10">
-
-                <ul className="p-4">
-
-                  {navItem.submenu.map((submenuItem) => (
-                    <ListItem
-                      key={submenuItem.submenuLabel}
-                      title={submenuItem.submenuLabel}
-                      href={"/" + submenuItem.submenuLabel}
-                    >
-                      {navItem.description}
-                    </ListItem>
-                  ))}
-                </ul>
-
-              </Box>
-            </Box>
-          ))}
-                  */}
+                </Button>
+              </React.Fragment>
+            ))}
+          </Box>
         </Box>
 
         <Box id="header-buttons" className="flex items-center justify-center">
           <CustomTooltip placement="bottom" label="⭐ Star on Github">
             <IconButton
               size="medium"
-              href="https://github.com/Ardent10/DevVerse"
+              href="https://github.com/Ardent10/large-language-models"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <GitHubIcon sx={{ color: githubIconColor }} fontSize="large" />
             </IconButton>

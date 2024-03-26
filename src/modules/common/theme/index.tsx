@@ -96,6 +96,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     backgroundColor: "#09090b",
     width: 32,
     height: 32,
+    border:"1px solid green",
     "&:before": {
       content: "''",
       position: "absolute",

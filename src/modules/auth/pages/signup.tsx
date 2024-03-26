@@ -8,9 +8,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { SignupForm } from "../components/signupForm";
 import { useContext } from "react";
 import { ColorModeContext } from "@/modules/common/theme";
+import { Logo } from "@/modules/common/layout/logo";
 
 export function SignupPage() {
-  const {mode} = useContext(ColorModeContext);
+  const { mode } = useContext(ColorModeContext);
   const [state, dispatch] = useAppState();
   const navigate = useNavigate();
   return (
@@ -48,28 +49,16 @@ export function SignupPage() {
           endIcon={<LoginIcon />}
           title="Login"
         />
-        <Grid item xs={6}>
-          <div className="relative hidden h-full flex-col bg-muted p-10 lg:flex dark:border-r">
-            <div className="absolute inset-0" />
-            <VideoPlayer
-              videoSrc="/assets/login/matrix.mp4"
-              poster="https://static.vecteezy.com/system/resources/thumbnails/009/657/336/original/streaming-data-flux-loop-free-video.jpg"
-            />
-            <div className="relative z-20 flex items-center text-lg font-medium">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="mr-2 h-6 w-6"
-              >
-                <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-              </svg>
-              Large Language Models Inc
-            </div>
+        <Grid
+          item
+          xs={6}
+          sx={{
+            backgroundImage: "url(/assets/matrix-bg.webp)",
+            border: "1px solid green",
+          }}
+        >
+          <div className="absolute z-20 top-8 left-8 flex items-center ">
+            <Logo />
           </div>
         </Grid>
         <Grid item container xs={6} p={16} className="h-full">

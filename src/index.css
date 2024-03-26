@@ -31,7 +31,27 @@
 html,
 body {
   margin: 0;
-  padding: 0!important;
+  padding: 0 !important;
   font-family: "Neue-Montreal", "Roboto", sans-serif;
   overflow-x: hidden;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0);
+  opacity: 1;
+  display: block;
+  background-color: rgb(44, 212, 81);
+  width: 20px;
+  height: 20px;
+  border-width: thin;
+  cursor: pointer;
+  border-radius: 5px;
+}
+input[type="file"]::-webkit-file-upload-button {
+  margin: 0 20px 0 0px;
+  border-radius: 5px;
+  background-color: rgb(44, 212, 81);
+  color: white;
+  cursor: pointer;
 }

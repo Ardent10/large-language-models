@@ -1,13 +1,16 @@
 import {
+  Chip,
   Grid,
   ListItemIcon,
   MenuItem,
   OutlinedInput,
   Select,
 } from "@mui/material";
+import { useContext } from "react";
 import { Controller } from "react-hook-form";
 import { Error } from "../error";
 import { InputLabel } from "../input/inputLabel";
+import { ColorModeContext } from "../theme";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -21,18 +24,8 @@ const MenuProps = {
 
 interface SelectorProps {
   title?: string;
-  display?: string;
-  justifyContent?: string;
-  alignItems?: string;
   flexDirection?: string;
-  width?: number;
-  height?: number;
   fontSize?: number;
-  color?: string;
-  margin?: string;
-  menuItemFontSize?: number;
-  menuItemFontWeight?: number;
-  menuItemFontColor?: string;
   data: any;
   name: string;
   control: any;
@@ -43,26 +36,15 @@ interface SelectorProps {
   disable?: boolean;
   sendId?: boolean;
   placeHolder?: string;
-  backgroundColor?: string;
 }
 
 export function SelectField({
-  title,
-  display,
-  justifyContent,
-  alignItems,
-  flexDirection,
-  width,
-  height,
-  fontSize,
-  color,
-  margin,
-  menuItemFontSize,
-  menuItemFontWeight,
-  menuItemFontColor,
   data,
   name,
   control,
+  title,
+  flexDirection,
+  fontSize,
   selectHeadingGridSpace,
   selectFieldGridSpace,
   required,
@@ -70,8 +52,8 @@ export function SelectField({
   disable,
   sendId,
   placeHolder,
-  backgroundColor,
 }: SelectorProps) {
+  const { mode } = useContext(ColorModeContext);
   return (
     <Controller
       name={name}
@@ -82,7 +64,7 @@ export function SelectField({
         formState: { isValid },
       }) => {
         return (
-          <Grid container>
+          <Grid container width={"100%"}>
             {title && (
               <Grid
                 item
@@ -100,7 +82,15 @@ export function SelectField({
               <Select
                 placeholder={placeHolder && placeHolder}
                 size="small"
-                // sx={styles.selectStyle}
+                sx={{
+                  p: 1,
+                  width: "100%",
+                  borderRadius: "5px",
+                  ".MuiOutlinedInput-notchedOutline": {
+                    border:
+                      mode === "dark" ? "1px solid white" : "1px solid black",
+                  },
+                }}
                 defaultValue={""}
                 value={value}
                 onBlur={onBlur} // notify when input is touched
@@ -115,6 +105,16 @@ export function SelectField({
                 inputProps={{
                   "aria-label": "Without label",
                 }}
+                renderValue={() => (
+                  <Chip
+                    key={value}
+                    label={value}
+                    sx={{
+                      backgroundColor: "#93e560",
+                      color: "#FFF",
+                    }}
+                  />
+                )}
                 disabled={disable}
               >
                 {data.map((d: any) => {
@@ -122,16 +122,11 @@ export function SelectField({
                     <MenuItem
                       key={d.id ? d.id : d.label}
                       value={sendId === true ? d.id : d.label}
-                      // sx={styles.menuItemStyle}
+                      className="bg-green-600"
                     >
                       {d.icon && (
                         <ListItemIcon>
-                          <img
-                            src={d.icon}
-                            alt="country"
-                            height={10}
-                            width={10}
-                          />
+                          <img src={d.icon} alt="icon" height={10} width={10} />
                         </ListItemIcon>
                       )}
                       {(d.showLabel && d.showLabel) || d.label}

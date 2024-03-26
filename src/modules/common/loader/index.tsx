@@ -43,7 +43,7 @@ export function Loader() {
           overflow: "hidden",
         }}
       >
-        <img src="/assets/hamburger.png" height={50} alt="llm" />
+        <img src="/assets/logo.png" height={50} alt="llm" />
         <Box
           width="100%"
           marginTop={1}

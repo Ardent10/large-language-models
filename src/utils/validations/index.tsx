@@ -36,18 +36,18 @@ const SignupSchema = z
     path: ["❌ confirmPassword"],
   });
 
-  const CreateModelSchema = z.object({
-    name: z.string().min(2, { message: "❌ Too short" }),
-    header_image: z.string().url({ message: "❌ Invalid URL" }),
-    content: z.string().min(2, { message: "❌ Too short" }),
-    published_date: z.string().min(2, { message: "❌ Too short" }),
-    likes: z.string(),
-    parameters: z.string().min(2, { message: "❌ Too short" }),
-    tags: z.array(z.string()),
-    status: z.string().min(2, { message: "❌ Too short" }),
-    provider: z.string().min(2, { message: "❌ Too short" }),
-    website: z.string().url({ message: "❌ Invalid URL" }),
-    access_type: z.string().min(2, { message: "❌ Too short" }),
-  });
+const CreateModelSchema = z.object({
+  name: z.string().min(2, { message: "❌ Too short" }),
+  header_image: z.instanceof(File),
+  content: z.string().min(2, { message: "❌ Too short" }),
+  published_date: z.string().min(2, { message: "❌ Too short" }),
+  likes: z.coerce.number(),
+  parameters: z.string().min(2, { message: "❌ Too short" }),
+  tags: z.array(z.string()),
+  status: z.string().min(2, { message: "❌ Too short" }),
+  provider: z.string().min(2, { message: "❌ Too short" }),
+  website: z.string().url({ message: "❌ Invalid URL" }),
+  access_type: z.string().min(2, { message: "❌ Too short" }),
+});
 
-export { LoginSchema, SignupSchema, CreateModelSchema };
+export { CreateModelSchema, LoginSchema, SignupSchema };

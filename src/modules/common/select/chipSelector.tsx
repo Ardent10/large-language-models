@@ -2,10 +2,11 @@ import { Box, Chip, Grid } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Error } from "../error";
 import { InputLabel } from "../input/inputLabel";
+import { ColorModeContext } from "../theme";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -28,24 +29,13 @@ interface Props {
   control: any;
   label: string;
   required: boolean;
-  display?: string;
-  justifyContent?: string;
-  alignItems?: string;
   flexDirection?: string;
-  width?: number;
-  height?: number;
   fontSize?: number;
   color?: string;
-  margin?: string;
-  menuItemFontSize?: number;
-  menuItemFontWeight?: number;
-  menuItemFontColor?: string;
   fontWeight?: number;
-  backgroundColor?: string;
   selectHeadingGridSpace?: number;
-  selectFieldGridSpace?: number;
   disable?: boolean;
-  placeHolder?: string;
+  placeholder?: string;
 }
 
 export function ChipSelector({
@@ -54,27 +44,15 @@ export function ChipSelector({
   control,
   data,
   required,
-  display,
-  justifyContent,
-  alignItems,
   flexDirection,
-  width,
-  height,
   fontSize,
   color,
-  margin,
-  menuItemFontSize,
-  menuItemFontWeight,
-  menuItemFontColor,
   fontWeight,
-  backgroundColor,
-  selectFieldGridSpace,
   selectHeadingGridSpace,
-  disable,
-  placeHolder,
+  placeholder,
 }: Props) {
   const { setValue } = useForm();
-
+  const { mode } = useContext(ColorModeContext);
   const [selectedChips, setSelectedChips] = useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<typeof selectedChips>) => {
@@ -115,6 +93,15 @@ export function ChipSelector({
             )}
             <Grid item xs={12}>
               <Select
+                placeholder={placeholder}
+                sx={{
+                  width: "100%",
+                  borderRadius: "5px",
+                  ".MuiOutlinedInput-notchedOutline": {
+                    border:
+                      mode === "dark" ? "1px solid white" : "1px solid black",
+                  },
+                }}
                 fullWidth
                 labelId="demo-multiple-chip-label"
                 id="demo-multiple-chip"
@@ -135,7 +122,7 @@ export function ChipSelector({
                       <Chip
                         key={value}
                         label={value}
-                        sx={{ backgroundColor: "#8a89fa", color: "#FFF" }}
+                        sx={{ backgroundColor: "#93e560", color: "#FFF" }}
                       />
                     ))}
                   </Box>
@@ -144,9 +131,9 @@ export function ChipSelector({
               >
                 {data.map((d, idx) => (
                   <MenuItem
+                    className="bg-green-600"
                     key={d.id ? d.id : idx}
                     value={d.label}
-                    // sx={styles.selectedStyle}
                   >
                     {d.label}
                   </MenuItem>

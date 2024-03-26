@@ -19,10 +19,10 @@ type content = {
 };
 
 export interface Model {
-  id: string;
+  id?: string;
   name: string;
-  header_image: string;
-  content: content[];
+  header_image: File;
+  content: string;
   published_date: string;
   created_at: string;
   likes: number;
@@ -40,7 +40,7 @@ export function useModels() {
   const navigate = useNavigate();
   const [state, dispatch] = useAppState();
   const [loading, setLoading] = useState<boolean>(true);
-
+  const MODELS_COLLECTION = import.meta.env.VITE_FIREBASE_MODEL_COLLECTION_NAME;
   useEffect(() => {
     getModels();
 
@@ -50,7 +50,7 @@ export function useModels() {
   async function getModels() {
     try {
       setLoading(true);
-      const modelsCollection = await collection(db, "blogs");
+      const modelsCollection = await collection(db, MODELS_COLLECTION);
       const modelsQuery = query(modelsCollection);
       const snapshot = await getDocs(modelsQuery);
       const modelsData: Model[] = snapshot.docs.map((doc) => {
@@ -92,7 +92,7 @@ export function useModels() {
 
     try {
       setLoading(true);
-      const storageRef = ref(storage, "blogs/" + file.name);
+      const storageRef = ref(storage, "models/" + file.name);
       const snapshot = await uploadBytesResumable(storageRef, file);
       const downloadURL = await getDownloadURL(snapshot.ref);
       setLoading(false);
@@ -113,9 +113,12 @@ export function useModels() {
 
   async function createModel(model: Model) {
     try {
-      setLoading(true);
+    dispatch({
+      type: "setIsLoading",
+      payload: { isLoading: true },
+    });
       const imageUrl = await uploadImage(model.header_image as any);
-      const modelsCollection = collection(db, "blogs");
+      const modelsCollection = collection(db, MODELS_COLLECTION);
       const res = await addDoc(modelsCollection, {
         ...model,
         header_image: imageUrl,
@@ -139,11 +142,14 @@ export function useModels() {
         payload: {
           open: true,
           severity: "error",
-          message: currentError.message,
+          message: "An error occurred while creating the model. Please try again.",
         },
       });
     } finally {
-      setLoading(false);
+      dispatch({
+        type: "setIsLoading",
+        payload: { isLoading: false },
+      });
     }
   }
 

@@ -1,6 +1,6 @@
+import { CircularProgress } from "@mui/material";
 import { Editor } from "@tinymce/tinymce-react";
 import { useState } from "react";
-import { Loader } from "../loader";
 
 interface RichTextEditorProps {
   setValue: any;
@@ -15,10 +15,10 @@ export function RichTextEditor({ setValue, control }: RichTextEditorProps) {
   return (
     <div className="relative flex flex-col w-full items-center justify-center shadow-md border border-green-600 rounded-xl">
       {isLoading && (
-        <>
-          <Loader />
-          <p className="text-center">Loading Editor...</p>
-        </>
+        <div className="h-80  w-full flex flex-col items-center justify-center">
+          <CircularProgress size={30} sx={{ color: "#fff" }} />
+          Loading Editor...
+        </div>
       )}
       <div className="w-full">
         <Editor

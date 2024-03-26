@@ -13,15 +13,12 @@ interface props {
   disable?: boolean;
   control?: any;
   required?: boolean;
-  inputHeadingType?: string;
   label?: string;
   inputHeadingLabelFontWeight?: number;
   inputHeadingLabelFontSize?: number;
   inputHeadingLabelColor?: string;
-  inputTextPaddingLeft?: string;
-  inputHeadingGridSpace?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+  inputPadding?: string|number;
   inputFieldGridSpace?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
-  leftMarginToInputField?: string;
   onChange?: any;
   rest?: any;
   forgetPasswordLink?: boolean;
@@ -39,19 +36,17 @@ export const InputField = ({
   disable,
   control,
   required,
-  inputHeadingType,
   label,
   inputHeadingLabelFontWeight,
   inputHeadingLabelFontSize,
   inputHeadingLabelColor,
-  inputTextPaddingLeft,
-  inputHeadingGridSpace,
+  inputPadding,
   inputFieldGridSpace,
-  leftMarginToInputField,
   rest,
   forgetPasswordLink,
   maxDate,
   minDate,
+  onChange,
   className,
 }: props) => {
   const { mode } = useContext(ColorModeContext);
@@ -89,11 +84,15 @@ export const InputField = ({
               <TextField
                 sx={{
                   borderRadius: "5px",
+                  ".MuiOutlinedInput-root": {
+                    padding: inputPadding && inputPadding,
+                  },
                   ".MuiOutlinedInput-notchedOutline": {
                     border:
                       mode === "dark" ? "1px solid white" : "1px solid black",
                   },
                 }}
+
                 type={type}
                 placeholder={placeholder}
                 fullWidth={true}

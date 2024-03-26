@@ -26,7 +26,7 @@ export function InputLabel({
     <Grid>
       <Typography component="h4" variant="h6">
         {label}
-        {required && <span>*</span>}
+        {required && <span className="text-red-600">*</span>}
       </Typography>
 
       {/* To show Forgot-password link in case of password input */}

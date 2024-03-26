@@ -107,39 +107,3 @@ export function ProfileMenu() {
     </>
   );
 }
-
-// import { LogOut } from "lucide-react";
-
-// import {
-//   Avatar,
-//   AvatarFallback,
-//   AvatarImage,
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuTrigger,
-// } from "@/shadcn/index";
-// import { useAuthentication } from "@/modules/auth/hooks";
-
-// export function ProfileMenu() {
-//   const {logout} = useAuthentication();
-//   return (
-//     <DropdownMenu>
-//       <DropdownMenuTrigger asChild>
-//         <Avatar className="flex items-center justify-center cursor-pointer">
-//           <AvatarImage src="https://github.com/shadcn.png" />
-//           <AvatarFallback>Neo</AvatarFallback>
-//         </Avatar>
-//       </DropdownMenuTrigger>
-//       <DropdownMenuContent>
-//         <DropdownMenuLabel>My Account</DropdownMenuLabel>
-
-//         <DropdownMenuItem onClick={()=>logout()}>
-//           <LogOut />
-//           <span>Log out</span>
-//         </DropdownMenuItem>
-//       </DropdownMenuContent>
-//     </DropdownMenu>
-//   );
-// }

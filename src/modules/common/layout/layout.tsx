@@ -31,6 +31,7 @@ export function Layout({ children }: LayoutProps) {
         vertical="bottom"
         horizontal="right"
       />
+
       <div
         id="layout"
         className="flex flex-col h-full bg-no-repeat bg-cover bg-center bg-fixed"

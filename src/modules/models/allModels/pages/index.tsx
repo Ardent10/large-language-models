@@ -15,7 +15,6 @@ export function AllModels() {
     fetchModelsData();
   }, []);
 
-  console.log("STATE", state);
   return (
     <Layout>
       <div className="text-white ">
