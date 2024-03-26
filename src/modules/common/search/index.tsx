@@ -21,7 +21,7 @@ import { useState } from "react";
 export function Search() {
   const [OpenModal, setModalOpen] = useState(false);
 
-  function toggleCreatePostModal() {
+  function toggleSearchModal() {
     setModalOpen((oldState) => !oldState);
   }
   return (
@@ -29,7 +29,7 @@ export function Search() {
       width={600}
       open={OpenModal}
       padding={0}
-      CloseModal={toggleCreatePostModal}
+      CloseModal={toggleSearchModal}
       borderRadius={3}
       backdropBackgroundColor="#EFEFE"
     >
