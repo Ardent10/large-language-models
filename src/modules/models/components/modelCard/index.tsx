@@ -23,7 +23,7 @@ interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
 export type Model = {
-  id: string;
+  id?: string;
   name: string;
   header_image: string;
   content: string;

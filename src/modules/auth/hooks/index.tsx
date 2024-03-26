@@ -23,6 +23,7 @@ interface signupData {
   firstName: string;
   lastName: string;
   occupation: string;
+  user_type: string;
 }
 
 export function useAuthentication() {
@@ -183,6 +184,7 @@ export function useAuthentication() {
     firstName,
     lastName,
     occupation,
+    user_type,
   }: signupData) {
     try {
       dispatch({
@@ -200,6 +202,7 @@ export function useAuthentication() {
             firstName,
             lastName,
             occupation,
+            user_type,
             timestamp: serverTimestamp(),
           });
           const userData = {
@@ -210,6 +213,8 @@ export function useAuthentication() {
             occupation,
             timestamp: serverTimestamp(),
           };
+          // Trigger welcome message
+          TextToSpeech({ text: userData?.firstName });
           dispatch({ type: "setUserProfile", payload: userData });
           dispatch({
             type: "setToggleSnackbar",

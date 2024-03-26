@@ -1,7 +1,10 @@
 import { useAuthentication } from "@/modules/auth/hooks";
 import { useAppState } from "@/store/index";
 import { CustomTooltip } from "@common/tooltip";
+import { Bookmark } from "@mui/icons-material";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Settings } from "@mui/icons-material";
 import {
   Box,
   Divider,
@@ -83,12 +86,26 @@ export function ProfileMenu() {
           </Typography>
           <Divider />
         </Box>
+        <MenuItem onClick={()=>navigate('/models/bookmarks')}>
+          <IconButton>
+            <Bookmark />
+          </IconButton>
+          <Typography fontSize={16} px={1}>
+            Bookmarks
+          </Typography>
+        </MenuItem>
         <MenuItem onClick={handleClose}>
+          <IconButton>
+            <AccountCircleIcon />
+          </IconButton>
           <Typography fontSize={16} px={1}>
             Profile
           </Typography>
         </MenuItem>
         <MenuItem onClick={handleClose}>
+          <IconButton>
+            <Settings />
+          </IconButton>
           <Typography fontSize={16} px={1}>
             Account Settings
           </Typography>

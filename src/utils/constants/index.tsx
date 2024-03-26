@@ -2,34 +2,66 @@ export const NavbarMenu: {
   title: string;
   href: string;
   description: string;
-  submenu: { submenuLabel: string }[];
+  icon?: string;
+  submenu: { submenuLabel: string; description: string }[];
 }[] = [
-  {
-    title: "Browse",
-    href: "/models",
-    description:
-      "A modal dialog that interrupts the user with important content and expects a response.",
-    submenu: [{ submenuLabel: "features" }, { submenuLabel: "feedback" }],
-  },
   {
     title: "Models",
     href: "/models",
-    description:
-      "For sighted users to preview content available behind a link.",
-    submenu: [{ submenuLabel: "latest" }, { submenuLabel: "playground" }],
+    description: "Explore various LLM models and their details.",
+    submenu: [
+      {
+        submenuLabel: "Model Catalog",
+        description: "Browse through available LLM models.",
+      },
+      {
+        submenuLabel: "Model Details",
+        description: "View detailed information on LLM models.",
+      },
+    ],
+  },
+  {
+    title: "Create",
+    href: "/models/create",
+    description: "Create your own LLM model.",
+    submenu: [{
+      submenuLabel: "Model Creation",
+      description: "Create a new LLM model from scratch.",
+
+    }],
   },
   {
     title: "Try Out",
-    href: "/models/create",
+    href: "/try",
+    icon:"/assets/navbar/van.webp",
     description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-    submenu: [{ submenuLabel: "how to use" }, { submenuLabel: "tutorials" }],
+      "Integrate LLM models like Gemini and DALL-E.",
+    submenu: [
+      {
+        submenuLabel: "How to Use",
+        description: "Integrate LLM models into your app.",
+      },
+      {
+        submenuLabel: "Tutorials",
+        description:
+          "Explore docs on using LLM models effectively.",
+      },
+    ],
   },
   {
-    title: "Features",
-    href: "/",
-    description: "Visually or semantically separates content.",
-    submenu: [{ submenuLabel: "roadmap" }, { submenuLabel: "updates" }],
+    title: "How It Works",
+    href: "/features",
+    description: "Discover additional features of the application.",
+    submenu: [
+      {
+        submenuLabel: "Roadmap",
+        description: "Development roadmap for upcoming features.",
+      },
+      {
+        submenuLabel: "Updates",
+        description: "Stay informed about the latest updates and enhancements.",
+      },
+    ],
   },
 ];
 

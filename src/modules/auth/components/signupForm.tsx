@@ -1,5 +1,6 @@
 import { PrimaryButton } from "@/modules/common/button";
 import { InputField } from "@/modules/common/input";
+import { SelectField } from "@/modules/common/select";
 import { useAppState } from "@/store";
 import { SignupSchema } from "@/utils/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,6 +35,7 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
       email: data.email,
       password: data.password,
       occupation: data.occupation,
+      user_type: data.user_type,
     });
   });
 
@@ -45,7 +47,7 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
     <Grid container rowSpacing={2} py={2}>
       <form onSubmit={onSubmit}>
         <Grid container rowSpacing={2}>
-          <Grid item xs={12}>
+          <Grid item container xs={12}>
             <Grid item container xs={12} columnSpacing={2}>
               <Grid item xs={6}>
                 <InputField
@@ -111,6 +113,18 @@ export function SignupForm({ className, ...props }: UserAuthFormProps) {
                   required
                 />
               </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <SelectField
+                control={control}
+                name="user_type"
+                title="User Type"
+                required
+                data={[
+                  { label: "Provider", id: 1 },
+                  { label: "Consumer", id: 2 },
+                ]}
+              />
             </Grid>
           </Grid>
 

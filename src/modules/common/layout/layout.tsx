@@ -5,6 +5,7 @@ import { CustomSnackbar } from "../snackbar";
 import { Footer } from "./footer";
 import { Header } from "./header";
 import { ColorModeContext } from "../theme";
+import { Navbar } from "./nav";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -38,9 +39,12 @@ export function Layout({ children }: LayoutProps) {
         style={{ backgroundImage: "url('/assets/bg.svg')" }}
       >
         <Header mode={mode}/>
+
         <main className="flex-grow">{children}</main>
         <Footer />
       </div>
     </>
   );
 }
+
+

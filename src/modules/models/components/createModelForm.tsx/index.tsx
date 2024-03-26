@@ -7,17 +7,14 @@ import { ChipSelector } from "@/modules/common/select/chipSelector";
 import { CustomSnackbar } from "@/modules/common/snackbar";
 import { useAppState } from "@/store";
 import { ModelTags } from "@/utils/constants";
-import { CreateModelSchema } from "@/utils/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
 import { useModels } from "../../hooks";
 
 export interface Model {
   name: string;
-  header_image: File;
+  header_image: File ;
   content: string;
-  published_date: string;
+  published_date: string ;
   created_at: string;
   likes: number;
   parameters: string;
@@ -28,35 +25,27 @@ export interface Model {
   access_type: string;
 }
 
-export function CreateModelForm() {
+interface CreateModelFormProps {
+  handleSubmit: any;
+  getValues: (name: string) => string;
+  control: any;
+  setValue: any;
+}
+
+export function CreateModelForm({
+  handleSubmit,
+  getValues,
+  control,
+  setValue,
+}: CreateModelFormProps) {
   const [state, dispatch] = useAppState();
   const { createModel } = useModels();
 
-  const defaultValues = {
-    name: "Generative Pre Trained Transformers (GPT)",
-    content:
-      "OpenAI's Generative Pre-trained Transformer (GPT) models kickstarted the latest AI hype cycle. There are two main models currently available: GPT-3.5-turbo and GPT-4. GPT is a general-purpose LLM with an API, and it's used by a diverse range of companies—including Microsoft, Duolingo, Stripe, Descript, Dropbox, and Zapier—to power countless different tools. Still, ChatGPT is probably the most popular demo of its powers.",
-    published_date: "26-03-2024",
-    likes: 50,
-    parameters: "13 Billion",
-    tags: [],
-    status: "Published",
-    provider: "OpenAI",
-    website: "https://openai.com/gpt-4",
-    access_type: "API",
-  };
-
-  const { handleSubmit, control, setValue, getValues, watch } = useForm<Model>({
-    resolver: zodResolver(CreateModelSchema),
-    defaultValues,
-    mode: "onChange",
-  });
-
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (data: Model) => {
     const content = getValues("content");
     data.content = content;
     console.log("Submitted data:", data);
-    createModel(data);
+    // createModel(data);
   });
 
   console.log("CREATE=>", state.parentModels);

@@ -45,7 +45,7 @@ export function LoginPage() {
         <PrimaryButton
           onClick={() => navigate("/signup")}
           variant={mode == "dark" ? "outlined" : "contained"}
-          className="w-auto absolute top-8 right-8 light:text-black light:bg-transparent text-sm capitalize dark:text-white dark:hover:text-white"
+          className="shadow-[0_2px_10px] w-auto absolute top-8 right-8 light:text-black light:bg-transparent text-sm capitalize dark:text-white dark:hover:text-white"
           endIcon={<PersonAddAltRoundedIcon />}
           title="Sign Up"
         />

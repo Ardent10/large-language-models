@@ -24,6 +24,7 @@ const SignupSchema = z
     firstName: z.string().min(2, { message: "❌ Too short" }),
     lastName: z.string().min(2, { message: "❌ Too short" }),
     occupation: z.string().min(2, { message: "❌ Too short" }),
+    user_type: z.string().min(2, { message: "❌ Too short" }),
     email: z.string().email({ message: "❌ Invalid email" }),
     password: z
       .string()

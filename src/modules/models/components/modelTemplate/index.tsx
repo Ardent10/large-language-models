@@ -1,21 +1,23 @@
 import { Chips } from "@/modules/common/chip";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import { Box, IconButton, Typography } from "@mui/material";
+import DOMPurify from "dompurify";
 import { Model } from "../../components/modelCard";
 import { DateTimeFormat } from "../dateTimeFormat";
-import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 
 export function ModelTemplate({ model }: { model: Model }) {
   const mode = "dark";
   const createMarkup = (html: string) => {
-    return { __html: html };
+    const sanitizedHtml = DOMPurify.sanitize(html);
+    return { __html: sanitizedHtml };
   };
 
   return (
-    <Box p={3} bgcolor={"black"} border={"1px solid green"} borderRadius={3}>
+    <Box p={3} height={'100%'} bgcolor={"black"} border={"1px solid green"} borderRadius={3}>
       {model ? (
         <Box className="max-w-3xl mx-auto px-4 py-8">
-          <Box className="flex flex-col ">
+          <Box className="flex flex-col text-white">
             <img
               src={model.header_image}
               alt="model-img"
@@ -97,7 +99,11 @@ export function ModelTemplate({ model }: { model: Model }) {
           </Box>
           <Box className="content pt-4">
             <Box
-              className={`text-lg font-normal whitespace-pre-wrap`}
+              className={`text-lg text-white font-normal whitespace-pre-wrap ${
+                mode === "dark"
+                  ? "[&>pre]:bg-[#666666] [&>pre]:rounded-xl [&>pre]:p-4 "
+                  : "[&>pre]:text-black "
+              } [&>pre]:whitespace-pre-wrap [&>code]:whitespace-break-spaces`}
               dangerouslySetInnerHTML={createMarkup(model.content)}
             />
           </Box>

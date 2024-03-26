@@ -1,76 +1,26 @@
-import { ColorModeContext } from "@/modules/common/theme";
-import { useContext } from "react";
+import { Grid, Typography } from "@mui/material";
+import { ModelTemplate } from "../modelTemplate/index.tsx";
+import {Model } from "../../pages/createModel.tsx"
 
-export function CreateModelPreview() {
-  const { mode } = useContext(ColorModeContext);
-  const createMarkup = (html: string) => {
-    return { __html: html };
-  };
+
+export function CreateModelPreview({ model }: { model: Model }) {
   return (
-    <div className=" w-full grid gap-4  bg-gray-300 items-center justify-center rounded-xl">
-      <div className="">
-        <h1 className=" text-center mb-3 text-2xl">Preview</h1>
-        <div className="content">
-          <div
-            className={`[&> h1]:text-[32px] [&>h1]:font-bold  [&>h1]:mb-2.5
-                        ${
-                          mode === "dark"
-                            ? "[&>h1]:text-[#ff4d4d]"
-                            : "[&>h1]:text-black"
-                        }
-                        ${
-                          mode === "dark"
-                            ? "[&>h2]:text-white"
-                            : "[&>h2]:text-black"
-                        }
-                        ${
-                          mode === "dark"
-                            ? "[&>h3]:text-white"
-                            : "[&>h3]:text-black"
-                        }
-                        ${
-                          mode === "dark"
-                            ? "[&>h4]:text-white"
-                            : "[&>h4]:text-black"
-                        }
-                        ${
-                          mode === "dark"
-                            ? "[&>h5]:text-white"
-                            : "[&>h5]:text-black"
-                        }
-                        ${
-                          mode === "dark"
-                            ? "[&>h6]:text-white"
-                            : "[&>h6]:text-black"
-                        }
-                        ${
-                          mode === "dark"
-                            ? "[&>p]:text-[#7efff5]"
-                            : "[&>p]:text-black"
-                        }
-                        ${
-                          mode === "dark"
-                            ? "[&>ul]:text-white"
-                            : "[&>ul]:text-black"
-                        }
-                        ${
-                          mode === "dark"
-                            ? "[&>ol]:text-white"
-                            : "[&>ol]:text-black"
-                        }
-                        ${
-                          mode === "dark"
-                            ? "[&>ol]:text-white"
-                            : "[&>ol]:text-black"
-                        }
-                        `}
-            dangerouslySetInnerHTML={createMarkup(
-              "value to send to markup function later"
-            )}
-          ></div>
-        </div>
-      </div>
-      No Preview Available. Please fill out the form to see the preview.
-    </div>
+    <Grid container>
+      <Grid
+        xs={12}
+        item
+        className={`w-full grid gap-4  ${
+          model ? "" : "bg-gray-300"
+        } items-center justify-center rounded-xl`}
+      >
+        {model ? (
+          <ModelTemplate model={model} />
+        ) : (
+          <Typography className="text-3xl py-4 font-bold mb-4">
+            No Preview Available. Please fill out the form to see the preview.
+          </Typography>
+        )}
+      </Grid>
+    </Grid>
   );
 }
