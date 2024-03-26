@@ -6,14 +6,11 @@ export function ModelTemplate({ model }: { model: Model }) {
   const createMarkup = (html: string) => {
     return { __html: html };
   };
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">{model.name}</h1>
-      <img
-        src={model.header_image}
-        alt={model.name}
-        className="mb-4 rounded-lg"
-      />
+
 
       <div className="mb-4">
         <h2 className="text-lg font-semibold mb-2">Content:</h2>
