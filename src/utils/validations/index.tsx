@@ -51,8 +51,8 @@ const CreateModelSchema = z.object({
   access_type: z.string().min(2, { message: "❌ Too short" }),
 });
 
-const TextToImageSchema = z.object({
+const SearchSchema = z.object({
   search: z.string().nonempty(),
 });
 
-export { CreateModelSchema, LoginSchema, SignupSchema,TextToImageSchema };
+export { CreateModelSchema, LoginSchema, SignupSchema, SearchSchema };

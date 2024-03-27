@@ -56,6 +56,12 @@ const globalReducers = (state: State, action: Action) => {
         subModels: action.payload,
       };
     }
+    case "setPromptResult": {
+      return {
+        ...state,
+        promptResult: action.payload,
+      };
+    }
 
     case "logout": {
       return initialState;

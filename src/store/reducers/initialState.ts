@@ -9,4 +9,5 @@ export const initialState = {
   cardModels: null,
   parentModels: null,
   subModels: null,
+  promptResult:null
 };

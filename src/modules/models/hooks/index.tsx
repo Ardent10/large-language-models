@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 export interface Model {
   id?: string;
   name: string;
-  header_image: File ;
+  header_image: File;
   content: string;
   published_date: string;
   created_at: string;
@@ -303,15 +303,98 @@ export function useModels() {
   };
 }
 
-export function useAIModels(){
-
-    const dallE = ()=>{
-        return {
-            id: "1",
-            name: "DALL-E",
-            description: "DALL-E is a 12-billion parameter version of GPT-3 trained to generate images from textual descriptions. ",
-            image: "/assets/models/dalle.webp",
-            href: "/models/dalle",
-          };
+export function useAIModels() {
+  const [state, dispatch] = useAppState();
+  const [loading, setLoading] = useState<boolean>(false);
+  async function Gpt(search: string) {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        "https://api.openai.com/v1/images/generations",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+          },
+          body: JSON.stringify({
+            prompt: search,
+            n: 1,
+            size: "512x512",
+          }),
+        }
+      );
+      const data = await response.json();
+      if (data.errors) {
+        dispatch({
+          type: "setToggleSnackbar",
+          payload: {
+            open: true,
+            severity: "error",
+            message: data.errors[0].message,
+          },
+        });
+      }
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "success",
+          message: "Prompt generated successfully",
+        },
+      });
+      return data;
+    } catch (error) {
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: "An error occurred while generating the prompt",
+        },
+      });
+    } finally {
+      setLoading(false);
     }
+  }
+
+  async function DallE() {
+    return {
+      id: 2,
+      name: "DALL-E",
+      image: "/assets/models/dall-e.jpeg",
+      description:
+        "OpenAI's DALL-E is a language model that can generate human-like text.",
+      href: "/models/generate/dall-e",
+    };
+  }
+
+  async function GeminiPro() {
+    return {
+      id: 3,
+      name: "Gemini Pro",
+      image: "/assets/models/gemini.jpg",
+      description:
+        "OpenAI's Gemini Pro is a language model that can generate human-like text.",
+      href: "/models/generate/gemini-pro",
+    };
+  }
+
+  async function GeminiProVision() {
+    return {
+      id: 4,
+      name: "Gemini Pro Vision",
+      image: "/assets/models/gemini-pro.png",
+      description:
+        "OpenAI's Gemini Pro Vision is a language model that can generate human-like text.",
+      href: "/models/generate/gemini-pro-vision",
+    };
+  }
+
+  return {
+    Gpt,
+    DallE,
+    GeminiPro,
+    GeminiProVision,
+  };
 }

@@ -33,6 +33,7 @@ export function GenerateModels() {
             <Grid container spacing={4} height={"100%"}>
               {AIModels.map((model) => (
                 <Grid
+                  key={model.id}
                   item
                   xs={12}
                   sm={6}

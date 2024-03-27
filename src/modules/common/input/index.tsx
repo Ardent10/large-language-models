@@ -113,6 +113,7 @@ export const InputField = ({
                   min: minDate ? minDate : undefined,
                 }}
                 onKeyDown={(e) => (type === "date" ? e.preventDefault() : {})}
+                className={className}
                 {...rest}
               />
             </Grid>
