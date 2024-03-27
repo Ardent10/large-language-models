@@ -306,7 +306,64 @@ export function useModels() {
 export function useAIModels() {
   const [state, dispatch] = useAppState();
   const [loading, setLoading] = useState<boolean>(false);
-  async function Gpt(search: string) {
+
+  async function Gpt(prompt: string) {
+    try {
+      setLoading(true);
+      const response = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.VITE_OPENAI_API_KEY}`,
+          },
+          body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0.7,
+          }),
+        }
+      );
+      const data = await response.json();
+      if (data.errors) {
+        dispatch({
+          type: "setToggleSnackbar",
+          payload: {
+            open: true,
+            severity: "error",
+            message: data.errors[0].message,
+          },
+        });
+      }
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "success",
+          message: "Prompt result generated successfully",
+        },
+      });
+      dispatch({
+        type: "setPromptResult",
+        payload: data.choices[0].message.content,
+      });
+
+      return data.choices[0].message.content;
+    } catch (error) {
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: "An error occurred while generating the prompt",
+        },
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+  async function DallE(prompt: string) {
     try {
       setLoading(true);
       const response = await fetch(
@@ -315,10 +372,10 @@ export function useAIModels() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+            Authorization: `Bearer ${process.env.VITE_OPENAI_API_KEY}`,
           },
           body: JSON.stringify({
-            prompt: search,
+            prompt: prompt,
             n: 1,
             size: "512x512",
           }),
@@ -358,18 +415,7 @@ export function useAIModels() {
     }
   }
 
-  async function DallE() {
-    return {
-      id: 2,
-      name: "DALL-E",
-      image: "/assets/models/dall-e.jpeg",
-      description:
-        "OpenAI's DALL-E is a language model that can generate human-like text.",
-      href: "/models/generate/dall-e",
-    };
-  }
-
-  async function GeminiPro() {
+  async function GeminiPro(prompt: string) {
     return {
       id: 3,
       name: "Gemini Pro",
@@ -380,7 +426,7 @@ export function useAIModels() {
     };
   }
 
-  async function GeminiProVision() {
+  async function GeminiProVision(prompt: string) {
     return {
       id: 4,
       name: "Gemini Pro Vision",
@@ -396,5 +442,6 @@ export function useAIModels() {
     DallE,
     GeminiPro,
     GeminiProVision,
+    loading,
   };
 }

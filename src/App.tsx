@@ -7,12 +7,11 @@ import {
   BookmarkModels,
   CreateModel,
   FeaturedModels,
+  GenerateModels,
   LLM,
   SubModel,
-  GenerateModels,
 } from "./modules/models";
 import { GenerateModelsByModelName } from "./modules/models/pages/generate";
-
 
 function App() {
   return (
@@ -26,7 +25,10 @@ function App() {
       <Route path="models/:modelName/:subModelName" element={<SubModel />} />
       <Route path="models/bookmarks" element={<BookmarkModels />} />
       <Route path="models/generate" element={<GenerateModels />} />
-      <Route path="models/generate/:modelName" element={<GenerateModelsByModelName />} />
+      <Route
+        path="models/generate/:modelName"
+        element={<GenerateModelsByModelName />}
+      />
       <Route path="models/featured" element={<FeaturedModels />} />
     </Routes>
   );

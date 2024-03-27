@@ -7,7 +7,14 @@ import KeyboardDoubleArrowRightRoundedIcon from "@mui/icons-material/KeyboardDou
 import { Box, IconButton } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useAIModels } from "../../hooks";
-export function GenerateModelForm() {
+
+interface GenerateModelFormProps {
+  modelApiFunction: (search: string) => void;
+}
+
+export function GenerateModelForm({
+  modelApiFunction,
+}: GenerateModelFormProps) {
   const [state, dispatch] = useAppState();
   const { Gpt } = useAIModels();
 
@@ -18,7 +25,7 @@ export function GenerateModelForm() {
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
-    // createModel(data);
+    modelApiFunction(data.search);
   });
 
   return (

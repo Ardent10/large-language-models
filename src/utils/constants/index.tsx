@@ -53,7 +53,7 @@ export const NavbarMenu: {
     title: "Featured🔥",
     href: "/models/featured",
     description: "Discover additional features of the application.",
-    icon:"/assets/navbar/code.gif",
+    icon:"/assets/navbar/sphere.jpg",
     submenu: [
       {
         submenuLabel: "Explore",
@@ -106,7 +106,7 @@ export const AIModels = [
     id: 1,
     name: "GPT-3.5 Turbo",
     href: "/models/generate/gpt",
-    description: "OpenAI's third-generation language prediction model.",
+    description: "OpenAI's third-generation language prediction model. It is the largest language model ever created.",
     image: "/assets/generate/gpt.jpg",
     tags: ["LLM", "GPT", "OpenAI"],
   },
