@@ -48,7 +48,6 @@ export function useModels() {
   // }, []);
 
   async function getModels() {
-    console.log("AYA??");
     try {
       setLoading(true);
       const modelsCollection = await collection(db, MODELS_COLLECTION);
@@ -302,4 +301,17 @@ export function useModels() {
     uploadImage,
     likeModel,
   };
+}
+
+export function useAIModels(){
+
+    const dallE = ()=>{
+        return {
+            id: "1",
+            name: "DALL-E",
+            description: "DALL-E is a 12-billion parameter version of GPT-3 trained to generate images from textual descriptions. ",
+            image: "/assets/models/dalle.webp",
+            href: "/models/dalle",
+          };
+    }
 }

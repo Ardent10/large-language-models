@@ -24,8 +24,7 @@ export function Dropzone({ setDragAndDropFiles, name, control }: props) {
   });
 
   function handleHeaderImageChange(file: File | null) {
-    console.log("File:", file);
-    if (!file) {
+       if (!file) {
       // If no file is selected, reset state and return
       setFile(null);
       return;

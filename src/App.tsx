@@ -4,11 +4,14 @@ import { Route, Routes } from "react-router-dom";
 import { SignupPage } from "./modules/auth/pages/signup";
 import {
   AllModels,
+  BookmarkModels,
   CreateModel,
+  FeaturedModels,
   LLM,
   SubModel,
-  BookmarkModels
+  GenerateModels,
 } from "./modules/models";
+
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
       <Route path="models/:modelId" element={<LLM />} />
       <Route path="models/:modelName/:subModelName" element={<SubModel />} />
       <Route path="models/bookmarks" element={<BookmarkModels />} />
+      <Route path="models/generate" element={<GenerateModels />} />
+      <Route path="models/generate/:modelName" element={<GenerateModels />} />
+      <Route path="models/featured" element={<FeaturedModels />} />
     </Routes>
   );
 }

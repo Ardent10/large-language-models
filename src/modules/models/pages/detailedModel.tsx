@@ -13,7 +13,7 @@ export function LLM() {
   const currentModel = state?.parentModels?.find(
     (model: Model) => model.id === modelId
   );
-  console.log("MODEL", modelId,  currentModel);
+
   return (
     <Layout>
       {state.isLoading ? (

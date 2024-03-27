@@ -4,7 +4,7 @@ import { CustomSnackbar } from "@/modules/common/snackbar";
 import { ColorModeContext } from "@/modules/common/theme";
 import { useAppState } from "@/store";
 import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { LoginForm } from "../components/loginForm";
@@ -25,23 +25,8 @@ export function LoginPage() {
         vertical="bottom"
         horizontal="right"
       />
-      <Box className="md:hidden">
-        <img
-          src="/examples/authentication-light.png"
-          width={1280}
-          height={843}
-          alt="Authentication"
-          className="block dark:hidden"
-        />
-        <img
-          src="/examples/authentication-dark.png"
-          width={1280}
-          height={843}
-          alt="Authentication"
-          className="hidden dark:block"
-        />
-      </Box>
-      <Grid container className="h-screen">
+
+      <Grid container className="h-screen md:visible">
         <PrimaryButton
           onClick={() => navigate("/signup")}
           variant={mode == "dark" ? "outlined" : "contained"}
@@ -62,7 +47,17 @@ export function LoginPage() {
             <Logo />
           </div>
         </Grid>
-        <Grid item container xs={6} p={16} className="h-full">
+        <Grid
+          item
+          container
+          xs={12}
+          md={6}
+          className="h-full sm:p-8 lg:p-32"
+          sx={{
+            backgroundImage: { xs: "url(/assets/matrix-bg.webp)", md: "none" },
+            border: "1px solid green",
+          }}
+        >
           <Grid
             item
             xs={12}
@@ -70,7 +65,7 @@ export function LoginPage() {
           >
             <Typography
               variant="h1"
-              className="text-6xl font-bold dark:text-[#47f738]"
+              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold dark:text-[#47f738]"
             >
               Welcome Back
             </Typography>

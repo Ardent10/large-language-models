@@ -5,7 +5,6 @@ import { CustomSnackbar } from "../snackbar";
 import { Footer } from "./footer";
 import { Header } from "./header";
 import { ColorModeContext } from "../theme";
-import { Navbar } from "./nav";
 
 interface LayoutProps {
   children: React.ReactNode;

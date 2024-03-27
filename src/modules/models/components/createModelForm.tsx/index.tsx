@@ -44,11 +44,10 @@ export function CreateModelForm({
   const onSubmit = handleSubmit(async (data: Model) => {
     const content = getValues("content");
     data.content = content;
-    console.log("Submitted data:", data);
+
     // createModel(data);
   });
 
-  console.log("CREATE=>", state.parentModels);
   return (
     <>
       <CustomSnackbar

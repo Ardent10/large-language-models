@@ -25,30 +25,17 @@ export function SignupPage() {
         vertical="bottom"
         horizontal="right"
       />
-      <Box className="md:hidden">
-        <img
-          src="/examples/authentication-light.png"
-          width={1280}
-          height={843}
-          alt="Authentication"
-          className="block dark:hidden"
-        />
-        <img
-          src="/examples/authentication-dark.png"
-          width={1280}
-          height={843}
-          alt="Authentication"
-          className="hidden dark:block"
-        />
-      </Box>
-      <Grid container className="h-screen">
+
+
+      <Grid container className="h-screen md:visible">
         <PrimaryButton
           onClick={() => navigate("/login")}
           variant={mode == "dark" ? "outlined" : "contained"}
-          className="w-auto absolute top-8 right-8 light:text-black light:bg-transparent text-sm capitalize dark:text-white dark:hover:text-white"
+          className="shadow-[0_2px_10px] w-auto absolute top-8 right-8 light:text-black light:bg-transparent text-sm capitalize dark:text-white dark:hover:text-white"
           endIcon={<LoginIcon />}
           title="Login"
         />
+
         <Grid
           item
           xs={6}
@@ -61,18 +48,30 @@ export function SignupPage() {
             <Logo />
           </div>
         </Grid>
-        <Grid item container xs={6} p={16} className="h-full">
+        <Grid
+          item
+          container
+          xs={12}
+          md={6}
+          className="h-full sm:p-8 lg:p-32"
+          sx={{
+            backgroundImage: { xs: "url(/assets/matrix-bg.webp)", md: "none" },
+            border: "1px solid green",
+          }}
+        >
           <Grid
             item
             xs={12}
-            py={2}
             className="flex flex-col items-center justify-center"
           >
-            <Typography variant="h1" className="text-6xl font-bold">
-              Create an account
+            <Typography
+              variant="h1"
+              className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold dark:text-[#47f738]"
+            >
+              Welcome Back
             </Typography>
             <Typography variant="body2" className="text-sm text-center">
-              Enter your email and a password below to create your account
+              It's time to take the pill and see how deep the rabbit hole goes.
             </Typography>
           </Grid>
           <Grid item xs={12} px={4}>

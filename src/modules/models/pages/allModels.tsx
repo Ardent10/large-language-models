@@ -17,7 +17,6 @@ export function AllModels() {
     }
     fetchModelsData();
   }, []);
-  console.log("READ=>", state?.parentModel?.length > 0, state);
 
   return (
     <Layout>

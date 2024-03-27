@@ -1,7 +1,7 @@
-import { AppStateProvider, globalReducers, initialState } from "@/store";
-import { ColorModeContextProvider } from "@modules/common/theme";
 import { CssBaseline, StyledEngineProvider } from "@mui/material";
 import React from "react";
+import { ColorModeContextProvider } from "@modules/common/theme";
+import { AppStateProvider, globalReducers, initialState } from "@/store";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
