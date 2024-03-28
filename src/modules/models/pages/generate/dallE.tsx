@@ -1,10 +1,14 @@
 import { Layout } from "@/modules/common/layout/layout";
+import { Loader } from "@/modules/common/loader";
+import { useAppState } from "@/store";
 import { Box, Paper, Typography } from "@mui/material";
 import { GenerateModelForm } from "../../components/generateModelForm";
 import { useAIModels } from "../../hooks";
 
 export function DallE() {
-  const { DallE,loading } = useAIModels();
+  const [state] = useAppState();
+  const { DallE, loading } = useAIModels();
+  console.log("DALLE=> ", state.prompResult);
 
   return (
     <Layout>
@@ -13,18 +17,29 @@ export function DallE() {
           DALL-E
         </Typography>
 
-        <Box className="h-full w-3/5">
+        <Box className="h-full sm:w-3/5">
           <Paper
             elevation={3}
             className="flex flex-wrap items-center justify-center min-h-[30rem] w-full rounded-xl"
             sx={{
-              backgroundImage: 'url("/assets/navbar/cat.webp")',
+              backgroundImage: state?.promptResult
+                ? `url(${state.prompResult})`
+                : `url("/assets/navbar/cat.webp")`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
-          />
+          >
+            {loading && <Loader componentLoader={true} />}
+          </Paper>
           <Box>
             <GenerateModelForm modelApiFunction={DallE} />
+          </Box>
+          <Box>
+            <Typography className=" text-2xl  py-8 text-red-500">
+              Note: The Admin has exceeded the free tier limit for this model.
+              Any API call will result in an error. However you can still use
+              the model locally with you own API Key credits.
+            </Typography>
           </Box>
         </Box>
       </Box>

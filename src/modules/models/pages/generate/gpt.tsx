@@ -15,19 +15,36 @@ export function GPT() {
           GPT3.5 TURBO
         </Typography>
 
-        <Box className="h-full w-3/5">
+        <Box className="h-full sm:w-3/5">
           <Paper
             elevation={3}
             className="p-8 flex flex-wrap bg-[#212121] items-center justify-center min-h-[30rem] w-full rounded-xl"
           >
             {loading && <Loader componentLoader={true} />}
-            <Typography className="font-semibold text-2xl  py-8 ">
-              Hello, {state?.userProfile?.firstName} How can I help you today?
+            <Typography className="flex items-center font-semibold text-2xl  py-8 ">
+              Hello,
+              <Typography color="green" className="font-semibold text-2xl">
+                &nbsp; {state?.userProfile?.firstName} &nbsp;
+              </Typography>
+              How can I help you today?
             </Typography>
+            {state?.promptResult && (
+              <Typography className="font-semibold text-2xl  py-8 ">
+                {state?.promptResult}
+              </Typography>
+            )}
           </Paper>
 
           <Box>
             <GenerateModelForm modelApiFunction={Gpt} />
+          </Box>
+
+          <Box>
+            <Typography className=" text-2xl  py-8 text-red-500">
+              Note: The Admin has exceeded the free tier limit for this model.
+              Any API call will result in an error. However you can still use
+              the model locally with you own API Key credits.
+            </Typography>
           </Box>
         </Box>
       </Box>

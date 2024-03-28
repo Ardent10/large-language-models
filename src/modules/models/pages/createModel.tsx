@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CreateModelForm } from "../components/createModelForm.tsx";
 import { CreateModelPreview } from "../components/createModelPreview/index.tsx";
+import { useAppState } from "@/store/index.tsx";
+import { useNavigate } from "react-router-dom";
 
 export interface Model {
   id?: string;
@@ -24,7 +26,9 @@ export interface Model {
 }
 
 export function CreateModel() {
+  const [state] = useAppState();
   const [previewImage, setPreviewImage] = useState("");
+  const navigate = useNavigate();
 
   const defaultValues = {
     name: "DALL·E",
@@ -56,6 +60,9 @@ export function CreateModel() {
   }
 
   useEffect(() => {
+    if (!(state?.userProfile?.user_type=== "provider")) {
+      navigate("/");
+    }
     handleImageChange();
   }, [watch("header_image")]);
 

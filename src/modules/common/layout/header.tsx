@@ -1,13 +1,11 @@
 import { useAppState } from "@/store";
 import { NavbarMenu } from "@/utils/constants";
 import { ExpandMore } from "@mui/icons-material";
-import GitHubIcon from "@mui/icons-material/GitHub";
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Box, Collapse, IconButton, Toolbar } from "@mui/material";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { CustomTooltip } from "../tooltip";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Logo } from "./logo";
 import { ProfileMenu } from "./profileMenu";
 
@@ -16,11 +14,7 @@ interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
-  const [state] = useAppState();
-  const navigate = useNavigate();
-
   const [toggleMobileMenu, setToggleMobileMenu] = React.useState(false);
-
   const handleMobileMenuChange = () => {
     setToggleMobileMenu((prev) => !prev);
   };
@@ -61,17 +55,8 @@ export function Header(props: HeaderProps) {
           >
             <Navbar />
           </Box>
-          <Box id="header-buttons" className="flex items-center justify-center">
-            <CustomTooltip placement="bottom" label="⭐ Star on Github">
-              <IconButton
-                size="medium"
-                href="https://github.com/Ardent10/large-language-models"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <GitHubIcon fontSize="large" />
-              </IconButton>
-            </CustomTooltip>
+
+          <Box className="flex justify-end sm:w-40">
             <ProfileMenu />
           </Box>
         </Box>
@@ -81,10 +66,20 @@ export function Header(props: HeaderProps) {
 }
 
 const Navbar = () => {
+  const [state] = useAppState();
+  const [navbarFilterByUserType, setNavbarMenu] = React.useState(NavbarMenu);
+
+  useEffect(() => {
+    if (state?.userProfile?.user_type === "provider") {
+      setNavbarMenu(NavbarMenu);
+    } else {
+      setNavbarMenu(NavbarMenu.filter((item) => item.title !== "Create"));
+    }
+  }, [state?.userProfile?.user_type]);
   return (
     <NavigationMenu.Root className="relative z-[1] flex  justify-center">
       <NavigationMenu.List className="center shadow-blackA4 m-0 flex list-none rounded-[6px]  p-1 ">
-        {NavbarMenu.map((navItem) => (
+        {navbarFilterByUserType.map((navItem) => (
           <React.Fragment key={navItem.title}>
             <NavigationMenu.Item>
               <Link to={navItem.href}>

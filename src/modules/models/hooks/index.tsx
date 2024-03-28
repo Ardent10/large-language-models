@@ -1,6 +1,6 @@
 import { useFirestore, useStorage } from "@/lib/firebase";
-
 import { useAppState } from "@/store";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import {
   addDoc,
   collection,
@@ -10,6 +10,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import fs from "fs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -37,15 +38,6 @@ export function useModels() {
   const navigate = useNavigate();
   const [state, dispatch] = useAppState();
   const [loading, setLoading] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //   if (!state?.parentModels) {
-  //     getModels();
-  //   } else {
-  //     setLoading(false);
-  //   }
-  //   return () => {};
-  // }, []);
 
   async function getModels() {
     try {
@@ -163,7 +155,7 @@ export function useModels() {
   async function updateModel(model: Model) {
     try {
       setLoading(true);
-      const modelsCollection = collection(db, "blogs");
+      const modelsCollection = collection(db, MODELS_COLLECTION);
       const modelDocRef = doc(modelsCollection, model.id);
       await updateDoc(modelDocRef, { ...model });
       dispatch({
@@ -193,7 +185,7 @@ export function useModels() {
   async function deleteModel(id: string) {
     try {
       setLoading(true);
-      const modelsCollection = collection(db, "blogs");
+      const modelsCollection = collection(db, MODELS_COLLECTION);
       const modelDocRef = doc(modelsCollection, id);
       await updateDoc(modelDocRef, {
         status: "deleted",
@@ -226,7 +218,7 @@ export function useModels() {
   async function getModelById(id: string) {
     try {
       setLoading(true);
-      const modelsCollection = await collection(db, "blogs");
+      const modelsCollection = await collection(db, MODELS_COLLECTION);
       const modelsQuery = query(modelsCollection);
       const snapshot = await getDocs(modelsQuery);
       const modelsData: Model[] = snapshot.docs.map((doc) => {
@@ -269,7 +261,7 @@ export function useModels() {
       setLoading(true);
       const model = await getModelById(id);
       if (model) {
-        const modelsCollection = collection(db, "blogs");
+        const modelsCollection = collection(db, MODELS_COLLECTION);
         const modelDocRef = doc(modelsCollection, id);
         await updateDoc(modelDocRef, {
           likes: model.likes + 1,
@@ -306,6 +298,84 @@ export function useModels() {
 export function useAIModels() {
   const [state, dispatch] = useAppState();
   const [loading, setLoading] = useState<boolean>(false);
+  const OPENAI_API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
+  const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+
+  const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+
+  async function GeminiPro(prompt: string) {
+    try {
+      setLoading(true);
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const result = await model.generateContentStream(prompt);
+      let text = "";
+      for await (const chunk of result.stream) {
+        const chunkText = chunk.text();
+        console.log(chunkText);
+        text += chunkText;
+
+        dispatch({
+          type: "setPromptResult",
+          payload: {
+            text: text,
+          },
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: "An error occurred while generating the prompt.",
+        },
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function fileToGenerativePart(path: string, mimeType: string) {
+    return {
+      inlineData: {
+        data: Buffer.from(fs.readFileSync(path)).toString("base64"),
+        mimeType,
+      },
+    };
+  }
+
+  async function GeminiProVision({
+    promptString,
+    img,
+  }: {
+    promptString: string;
+    img?: File;
+  }) {
+    try {
+      const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
+      const prompt = promptString;
+      const imageParts = [
+        fileToGenerativePart("/assets/navbar/cat.webp", "image/webp"),
+        // fileToGenerativePart("image2.jpeg", "image/jpeg"),
+      ];
+      const result = await model.generateContent([prompt, ...imageParts]);
+      const response = await result.response;
+      const text = response.text();
+      dispatch({
+        type: "setPromptResult",
+        payload: { text: text },
+      });
+    } catch (error) {
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: "An error occurred while generating the prompt.",
+        },
+      });
+    }
+  }
 
   async function Gpt(prompt: string) {
     try {
@@ -316,7 +386,7 @@ export function useAIModels() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.VITE_OPENAI_API_KEY}`,
+            Authorization: `Bearer ${OPENAI_API_KEY}`,
           },
           body: JSON.stringify({
             model: "gpt-3.5-turbo",
@@ -341,7 +411,8 @@ export function useAIModels() {
         payload: {
           open: true,
           severity: "success",
-          message: "Prompt result generated successfully",
+          message:
+            "Usage limit exceeded. Please upgrade your plan to continue.",
         },
       });
       dispatch({
@@ -356,7 +427,8 @@ export function useAIModels() {
         payload: {
           open: true,
           severity: "error",
-          message: "An error occurred while generating the prompt",
+          message:
+            "Usage limit exceeded. Please upgrade your plan to continue.",
         },
       });
     } finally {
@@ -364,6 +436,7 @@ export function useAIModels() {
     }
   }
   async function DallE(prompt: string) {
+    console.log("DallE prompt=> ", prompt);
     try {
       setLoading(true);
       const response = await fetch(
@@ -372,7 +445,7 @@ export function useAIModels() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.VITE_OPENAI_API_KEY}`,
+            Authorization: `Bearer ${OPENAI_API_KEY}`,
           },
           body: JSON.stringify({
             prompt: prompt,
@@ -381,17 +454,21 @@ export function useAIModels() {
           }),
         }
       );
-      const data = await response.json();
-      if (data.errors) {
+      const res = await response.json();
+      if (res.errors) {
         dispatch({
           type: "setToggleSnackbar",
           payload: {
             open: true,
             severity: "error",
-            message: data.errors[0].message,
+            message: res.errors[0].message,
           },
         });
       }
+      dispatch({
+        type: "setPromptResult",
+        payload: res?.data[0]?.url,
+      });
       dispatch({
         type: "setToggleSnackbar",
         payload: {
@@ -400,41 +477,20 @@ export function useAIModels() {
           message: "Prompt generated successfully",
         },
       });
-      return data;
+      return res?.data[0]?.url;
     } catch (error) {
       dispatch({
         type: "setToggleSnackbar",
         payload: {
           open: true,
           severity: "error",
-          message: "An error occurred while generating the prompt",
+          message:
+            "Usage limit exceeded. Please upgrade your plan to continue.",
         },
       });
     } finally {
       setLoading(false);
     }
-  }
-
-  async function GeminiPro(prompt: string) {
-    return {
-      id: 3,
-      name: "Gemini Pro",
-      image: "/assets/models/gemini.jpg",
-      description:
-        "OpenAI's Gemini Pro is a language model that can generate human-like text.",
-      href: "/models/generate/gemini-pro",
-    };
-  }
-
-  async function GeminiProVision(prompt: string) {
-    return {
-      id: 4,
-      name: "Gemini Pro Vision",
-      image: "/assets/models/gemini-pro.png",
-      description:
-        "OpenAI's Gemini Pro Vision is a language model that can generate human-like text.",
-      href: "/models/generate/gemini-pro-vision",
-    };
   }
 
   return {

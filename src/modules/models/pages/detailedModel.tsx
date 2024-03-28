@@ -1,18 +1,25 @@
 import { Layout } from "@/modules/common/layout/layout";
 import { Loader } from "@/modules/common/loader";
 import { useAppState } from "@/store";
-import { Box, Divider, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { ModelTemplate } from "../components/modelTemplate";
-import { Model } from "../hooks";
+import { Model, useModels } from "../hooks";
 
 export function LLM() {
   const [state] = useAppState();
-  const {modelId} = useParams<{modelId: string}>();
+  const { likeModel } = useModels();
+  const { modelId } = useParams<{ modelId: string }>();
   const currentModel = state?.parentModels?.find(
     (model: Model) => model.id === modelId
   );
+
+  useEffect(() => {
+    if (modelId && !!currentModel) {
+      likeModel(modelId);
+    }
+  }, [modelId]);
 
   return (
     <Layout>

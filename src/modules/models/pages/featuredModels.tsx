@@ -2,23 +2,26 @@ import { Layout } from "@/modules/common/layout/layout";
 import { Loader } from "@/modules/common/loader";
 import { useAppState } from "@/store";
 import { Box, Divider, Typography } from "@mui/material";
-import { useEffect } from "react";
-import { ModelCard } from "../components/modelCard";
+import { useEffect, useState } from "react";
+import { Model, ModelCard } from "../components/modelCard";
 import { useModels } from "../hooks";
 
 export function FeaturedModels() {
   const [state] = useAppState();
   const { getModels, loading } = useModels();
+  const [mostViewedModels, setMostViewedModels] = useState<Model[]>([]);
 
   useEffect(() => {
-    async function fetchModelsData() {
-      if (state?.parentModel?.length > 0) return;
-      else await getModels();
+    if (!state?.parentModels?.length) {
+      getModels();
     }
-    fetchModelsData();
-  }, []);
+    const mostViewedModels: Model[] = state?.parentModels
+      ?.sort((a: Model, b: Model) => b.likes - a.likes)
+      .slice(0, 6);
+    setMostViewedModels(mostViewedModels);
+  }, [state?.parentModels]);
 
-  return (
+    return (
     <Layout>
       {loading ? (
         <div className="text-white h-screen">
@@ -31,7 +34,7 @@ export function FeaturedModels() {
           </Typography>
 
           <Box py={4}>
-            <ModelCard modelData={state?.parentModels} />
+            <ModelCard modelData={mostViewedModels ? mostViewedModels : []} />
           </Box>
           <Divider className="flex  w-full gap-8 " />
         </Box>

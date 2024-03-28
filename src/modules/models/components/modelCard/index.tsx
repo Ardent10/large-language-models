@@ -18,6 +18,7 @@ import { styled } from "@mui/material/styles";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { DateTimeFormat } from "../dateTimeFormat";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -113,7 +114,7 @@ export function ModelCard({ modelData }: ModelCardProps) {
                     <CardContent sx={{ py: 0 }}>
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: model.content.substring(0, 300),
+                          __html: model?.content?.substring(0, 300),
                         }}
                       />
                       ...
@@ -138,7 +139,7 @@ export function ModelCard({ modelData }: ModelCardProps) {
                       <Box className="flex items-center">
                         <Box className="flex items-center">
                           <IconButton aria-label="love">
-                            <FavoriteIcon />
+                            <VisibilityIcon />
                           </IconButton>
                           <Typography
                             color="#64c956"
@@ -148,10 +149,6 @@ export function ModelCard({ modelData }: ModelCardProps) {
                             {model.likes}
                           </Typography>
                         </Box>
-
-                        {/* <IconButton aria-label="comment">
-                        <InsertCommentRoundedIcon />
-                      </IconButton> */}
                       </Box>
                       <Box>
                         <Chips chipsArray={model.tags} />

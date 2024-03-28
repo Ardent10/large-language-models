@@ -5,6 +5,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 import DOMPurify from "dompurify";
 import { Model } from "../../components/modelCard";
 import { DateTimeFormat } from "../dateTimeFormat";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export function ModelTemplate({ model }: { model: Model }) {
   const mode = "dark";
@@ -65,7 +66,7 @@ export function ModelTemplate({ model }: { model: Model }) {
 
             <Box className="flex items-center">
               <IconButton aria-label="love">
-                <FavoriteIcon />
+                < VisibilityIcon />
               </IconButton>
               <Typography color="#64c956" fontSize={16} fontWeight={500}>
                 {model.likes}

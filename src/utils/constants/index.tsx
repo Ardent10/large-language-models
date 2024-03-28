@@ -25,7 +25,7 @@ export const NavbarMenu: {
     title: "Create",
     href: "/models/create",
     description: "Create your own LLM model.",
-    icon:"/assets/navbar/cat.webp",
+    icon: "/assets/navbar/cat.webp",
     submenu: [
       {
         submenuLabel: "Model Creation",
@@ -53,7 +53,7 @@ export const NavbarMenu: {
     title: "Featured🔥",
     href: "/models/featured",
     description: "Discover additional features of the application.",
-    icon:"/assets/navbar/sphere.jpg",
+    icon: "/assets/navbar/sphere.jpg",
     submenu: [
       {
         submenuLabel: "Explore",
@@ -106,7 +106,8 @@ export const AIModels = [
     id: 1,
     name: "GPT-3.5 Turbo",
     href: "/models/generate/gpt",
-    description: "OpenAI's third-generation language prediction model. It is the largest language model ever created.",
+    description:
+      "OpenAI's third-generation language prediction model. It is the largest language model ever created.",
     image: "/assets/generate/gpt.jpg",
     tags: ["LLM", "GPT", "OpenAI"],
   },

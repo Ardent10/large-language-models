@@ -6,17 +6,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import KeyboardDoubleArrowRightRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowRightRounded";
 import { Box, IconButton } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useAIModels } from "../../hooks";
 
 interface GenerateModelFormProps {
   modelApiFunction: (search: string) => void;
+  customOnSubmit?: () => void;
 }
 
 export function GenerateModelForm({
   modelApiFunction,
+  customOnSubmit,
 }: GenerateModelFormProps) {
-  const [state, dispatch] = useAppState();
-  const { Gpt } = useAIModels();
+  const [state] = useAppState();
 
   const { handleSubmit, control, getValues, setValue } = useForm({
     mode: "onBlur",
@@ -24,8 +24,11 @@ export function GenerateModelForm({
   });
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
-    modelApiFunction(data.search);
+    if (customOnSubmit) {
+      customOnSubmit();
+    } else {
+      modelApiFunction(data.search);
+    }
   });
 
   return (
@@ -53,6 +56,12 @@ export function GenerateModelForm({
             />
             <IconButton
               type="submit"
+              onClick={(e) => {
+                {
+                  e.preventDefault();
+                  onSubmit();
+                }
+              }}
               className="absolute top-2 right-2 bg-[#64c956] hover:bg-green-800"
             >
               <KeyboardDoubleArrowRightRoundedIcon />

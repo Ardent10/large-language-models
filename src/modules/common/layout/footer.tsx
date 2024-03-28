@@ -1,3 +1,7 @@
+import { IconButton } from "@mui/material";
+import { CustomTooltip } from "../tooltip";
+import GitHubIcon from "@mui/icons-material/GitHub";
+
 export function Footer() {
   return (
     <div>
@@ -33,6 +37,18 @@ export function Footer() {
                 <a href="#" className="hover:underline">
                   Contact
                 </a>
+              </li>
+              <li>
+                <CustomTooltip placement="bottom" label="⭐ Star on Github">
+                  <IconButton
+                    size="medium"
+                    href="https://github.com/Ardent10/large-language-models"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <GitHubIcon fontSize="large" />
+                  </IconButton>
+                </CustomTooltip>
               </li>
             </ul>
           </div>

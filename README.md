@@ -1,30 +1,54 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Large Language Models(LLM)
 
-Currently, two official plugins are available:
+![alt text](image.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Description
 
-## Expanding the ESLint configuration
+- Built with React and Vite: [React](https://react.dev/), [Vite](https://vitejs.dev/)
+- Utilizes Material-UI for UI components: [Material-UI](https://mui.com/)
+- Tailwind CSS for styling: [Tailwind CSS](https://tailwindcss.com/)
+- Implements form handling with React Hook Form: [React Hook Form](https://react-hook-form.com/)
+- Zod validation: [Zod](https://zod.dev/)
+- Image upload functionality with Dropzone: [React Dropzone](https://www.npmjs.com/package/react-dropzone)
+- Utilizes Firebase for Backend as a Service: [Firebase](https://firebase.google.com/docs/guides)
+- Utilizes Radix UI navigation menu for hoverable navigation: [Radix UI](https://www.radix-ui.com/)
+- Integrates Google Generative AI library for the Gemini model: [Google Generative AI](https://ai.google.dev/tutorials/get_started_node)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features
 
-- Configure the top-level `parserOptions` property like this:
+- **Create Custom Models:** Build AI models tailored to specific requirements using an intuitive interface.
+- **Explore Pre-built Models:** Discover the latest advancements in AI technology and explore new use cases through a curated collection of models.
+- **Effortless Content Generation:** Utilize powerful models like GPT-3.5 Turbo, DALL-E, and Gemini to generate text, images, and more with ease.
+- **Comprehensive Model Library:** Access a diverse array of Large Language Models (LLMs), each designed to excel in specific domains, from language translation to creative artistry.
+- **Dedicated Models Page:** Delve deeper into each model's features, capabilities, and potential use cases through detailed documentation and examples.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+## Application Overview
+
+[LLM Whimsical Application overview ](https://whimsical.com/llm-models-C32pdRJzyTKjRJWf3q4Wnc)
+
+## Dependencies
+
+```
+- "@emotion/react": "^11.11.4"
+- "@emotion/styled": "^11.11.0"
+- "@google/generative-ai": "^0.3.1"
+- "@hookform/resolvers": "^3.3.4"
+- "@mui/icons-material": "^5.15.14"
+- "@mui/material": "^5.15.14"
+- "@radix-ui/react-navigation-menu": "^1.1.4"
+- "@tinymce/tinymce-react": "^4.3.2"
+- "dayjs": "^1.11.10"
+- "dompurify": "^3.0.11"
+- "firebase": "^10.9.0"
+- "react": "^18.2.0"
+- "react-dom": "^18.2.0"
+- "react-dropzone": "^14.2.3"
+- "react-hook-form": "^7.51.1"
+- "react-router-dom": "^6.22.3"
+- "zod": "^3.22.4"
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Optimization
+
+Optimization is achieved through caching on global state, utilizing the same state to provide data to components efficiently. This approach enhances performance and ensures seamless data flow throughout the application avoiding unnecessary api calls.
