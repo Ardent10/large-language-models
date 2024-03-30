@@ -41,12 +41,14 @@ const TerminalTypewriter = ({ text }: { text: string }) => {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDisplayText((prevText) => prevText + text[index]);
-      setIndex((prevIndex) => prevIndex + 1);
-    }, 50);
+    if (index < text.length) {
+      const timer = setTimeout(() => {
+        setDisplayText((prevText) => prevText + text[index]);
+        setIndex((prevIndex) => prevIndex + 1);
+      }, 50);
 
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, [index, text]);
 
   return (
@@ -57,6 +59,7 @@ const TerminalTypewriter = ({ text }: { text: string }) => {
     </Box>
   );
 };
+
 
 const AppDescription = () => {
   const description = `Welcome to Large Language Models, your gateway to cutting-edge AI innovation. With a focus on empowering users, our platform offers a range of services tailored to meet your needs:

@@ -1,11 +1,12 @@
 import { useAppState } from "@/store";
 import { NavbarMenu } from "@/utils/constants";
 import { ExpandMore } from "@mui/icons-material";
-import MenuIcon from "@mui/icons-material/Menu";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import { AppBar, Box, Collapse, IconButton, Toolbar } from "@mui/material";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Logo } from "./logo";
 import { ProfileMenu } from "./profileMenu";
 
@@ -14,60 +15,14 @@ interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
-  const [toggleMobileMenu, setToggleMobileMenu] = React.useState(false);
-  const handleMobileMenuChange = () => {
-    setToggleMobileMenu((prev) => !prev);
-  };
-
-  return (
-    <AppBar
-      position="absolute"
-      className="flex absolute top-4 sm:left-2 md:left-8 lg:left-10 w-[95%] bg-none bg-transparent bg-opacity-50 backdrop-blur-lg z-10 items-center justify-between border border-green-600 rounded-xl xs:py-1 lg:px-7.5 xl:px-4"
-    >
-      <Toolbar className="w-full px-0">
-        <Box
-          className="w-full "
-          sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-        >
-          <IconButton
-            size="large"
-            aria-label="account of current user"
-            aria-controls="menu-appbar"
-            aria-haspopup="true"
-            onClick={handleMobileMenuChange}
-            color="inherit"
-            className="xs:flex md:flex lg:hidden xl:hidden"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Collapse in={toggleMobileMenu} timeout="auto" unmountOnExit>
-            <Navbar />
-          </Collapse>
-        </Box>
-        <Box className="w-full flex justify-between items-center">
-          <Box>
-            <Logo />
-          </Box>
-          <Box
-            sx={{
-              display: { xs: "none", md: "flex" },
-            }}
-          >
-            <Navbar />
-          </Box>
-
-          <Box className="flex justify-end sm:w-40">
-            <ProfileMenu />
-          </Box>
-        </Box>
-      </Toolbar>
-    </AppBar>
-  );
-}
-
-const Navbar = () => {
   const [state] = useAppState();
   const [navbarFilterByUserType, setNavbarMenu] = React.useState(NavbarMenu);
+  const [toggleMobileNavbar, setToggleMobileNavbar] =
+    React.useState<boolean>(false);
+
+  const handleToggleMobileNavbar = (event: React.MouseEvent<HTMLElement>) => {
+    setToggleMobileNavbar((prev) => !prev);
+  };
 
   useEffect(() => {
     if (state?.userProfile?.user_type === "provider") {
@@ -76,6 +31,58 @@ const Navbar = () => {
       setNavbarMenu(NavbarMenu.filter((item) => item.title !== "Create"));
     }
   }, [state?.userProfile?.user_type]);
+
+  return (
+    <AppBar
+      position="absolute"
+      className="flex absolute top-4 sm:left-2 md:left-8 lg:left-10 w-[95%] bg-none bg-transparent bg-opacity-50 backdrop-blur-lg z-10 items-center justify-between border border-green-600 rounded-xl xs:py-1 lg:px-7.5 xl:px-4"
+    >
+      <Toolbar className="flex flex-col sm:flex-row md:flex w-full px-0">
+        <Box className="w-full flex justify-between items-center mb-2 sm:mb-0">
+          <IconButton
+            size="large"
+            aria-label="mobile-menu"
+            aria-controls="mobile-menu"
+            onClick={handleToggleMobileNavbar}
+            color="inherit"
+            className="xs:flex md:flex lg:hidden xl:hidden"
+          >
+            {toggleMobileNavbar ? <CloseRoundedIcon /> : <MenuOpenIcon />}
+          </IconButton>
+
+          <Logo />
+
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              flex: 1,
+              justifyContent: "center",
+            }}
+          >
+            <Navbar navbarFilterByUserType={navbarFilterByUserType} />
+          </Box>
+          <Box className="flex justify-end sm:w-40">
+            <ProfileMenu />
+          </Box>
+        </Box>
+        {/* Collapsed Navbar */}
+        <Collapse in={toggleMobileNavbar} timeout="auto" unmountOnExit>
+          <Box className="flex flex-col items-center w-full">
+            <Navbar navbarFilterByUserType={navbarFilterByUserType} />
+          </Box>
+        </Collapse>
+      </Toolbar>
+    </AppBar>
+  );
+}
+
+const Navbar = ({
+  navbarFilterByUserType,
+}: {
+  navbarFilterByUserType: typeof NavbarMenu;
+}) => {
+  const location = useLocation();
+
   return (
     <NavigationMenu.Root className="relative z-[1] flex  justify-center">
       <NavigationMenu.List className="center shadow-blackA4 m-0 flex list-none rounded-[6px]  p-1 ">
@@ -83,7 +90,12 @@ const Navbar = () => {
           <React.Fragment key={navItem.title}>
             <NavigationMenu.Item>
               <Link to={navItem.href}>
-                <NavigationMenu.Trigger className="decoration-2 decoration-green-600 hover:underline text-violet11 hover:bg-violet3 focus:shadow-violet7 group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none hover:text-decoration-line">
+                <NavigationMenu.Trigger
+                  className={`${
+                    location.pathname === navItem.href &&
+                    "underline text-green-600"
+                  } decoration-2 decoration-green-600 hover:underline hover:text-green-500 text-violet11 hover:bg-violet3 focus:shadow-violet7 group flex select-none items-center justify-between gap-[2px] rounded-[4px] px-3 py-2 text-[15px] font-medium leading-none outline-none hover:text-decoration-line`}
+                >
                   {navItem.title}
                   <ExpandMore
                     className="text-violet10 relative top-[1px] transition-transform duration-[250] ease-in group-data-[state=open]:-rotate-180"

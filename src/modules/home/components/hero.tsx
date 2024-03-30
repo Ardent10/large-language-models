@@ -8,7 +8,7 @@ export function Hero() {
           className="absolute inset-0 bg-contain object-cover w-full h-full z-0"
         />
         <div className="pt-10">
-          <h1 className="relative z-1 text-center text-[6rem] md:text-[12rem] leading-none font-bold text-green-600 mix-blend-difference">
+          <h1 className="relative z-1 text-center text-[6rem] md:text-[10rem] leading-none font-bold text-green-600 mix-blend-difference">
             <span className="relative ">Large Language</span>
             <br />
             <span className=" text-green-600">Models</span>
