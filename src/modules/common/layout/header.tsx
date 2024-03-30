@@ -35,10 +35,10 @@ export function Header(props: HeaderProps) {
   return (
     <AppBar
       position="absolute"
-      className="flex absolute top-4 sm:left-2 md:left-8 lg:left-10 w-[95%] bg-none bg-transparent bg-opacity-50 backdrop-blur-lg z-10 items-center justify-between border border-green-600 rounded-xl xs:py-1 lg:px-7.5 xl:px-4"
+      className="flex absolute top-4 right-[0.5rem] sm:right-0 sm:left-2 md:left-8 lg:left-10 w-[95%] bg-none bg-transparent bg-opacity-50 backdrop-blur-lg z-10 items-center justify-between border border-green-600 rounded-xl xs:py-1 lg:px-7.5 xl:px-4"
     >
-      <Toolbar className="flex flex-col sm:flex-row md:flex w-full px-0">
-        <Box className="w-full flex justify-between items-center mb-2 sm:mb-0">
+      <Toolbar className="flex flex-col sm:flex-row md:flex w-full px-0 py-2">
+        <Box className="w-full flex justify-between items-center">
           <IconButton
             size="large"
             aria-label="mobile-menu"
