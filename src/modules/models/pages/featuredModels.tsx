@@ -22,23 +22,23 @@ export function FeaturedModels() {
   }, [state?.parentModels]);
 
     return (
-    <Layout>
-      {loading ? (
-        <div className="text-white h-screen">
-          <Loader />
-        </div>
-      ) : (
-        <Box className="flex flex-col items-center justify-center w-full px-16 mt-24">
-          <Typography className="font-semibold md:text-9xl py-8 text-[#64c956]">
-            FEATURED🔥
-          </Typography>
+      <Layout>
+        {loading ? (
+          <div className="text-white h-screen">
+            <Loader />
+          </div>
+        ) : (
+          <Box className="flex flex-col items-center justify-center w-full px-16 mt-24">
+            <Typography className="font-semibold text-2xl sm:text-6xl md:text-9xl py-8 text-[#64c956] uppercase">
+              FEATURED🔥
+            </Typography>
 
-          <Box py={4}>
-            <ModelCard modelData={mostViewedModels ? mostViewedModels : []} />
+            <Box py={4}>
+              <ModelCard modelData={mostViewedModels ? mostViewedModels : []} />
+            </Box>
+            <Divider className="flex  w-full gap-8 " />
           </Box>
-          <Divider className="flex  w-full gap-8 " />
-        </Box>
-      )}
-    </Layout>
-  );
+        )}
+      </Layout>
+    );
 }

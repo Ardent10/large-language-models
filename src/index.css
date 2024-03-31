@@ -34,6 +34,7 @@ body {
   padding: 0 !important;
   font-family: "Neue-Montreal", "Roboto", sans-serif;
   overflow-x: hidden;
+  cursor: url("/assets/cursor.svg"), auto;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {

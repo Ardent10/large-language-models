@@ -29,11 +29,11 @@ export function GeminiProVision() {
   return (
     <Layout>
       <Box className="flex flex-col items-center justify-center w-full px-16 mt-24">
-        <Typography className="font-semibold text-2xl sm:text-6xl md:text-9xl py-8 text-[#64c956]">
+        <Typography className="font-semibold text-2xl sm:text-6xl md:text-7xl lg:text-9xl py-8 text-[#64c956]">
           GEMINI PRO VISION
         </Typography>
 
-        <Box className="h-full sm:w-3/5">
+        <Box className="h-full md:w-3/5">
           <Paper
             elevation={3}
             className="flex flex-wrap items-center justify-center min-h-[30rem] w-full rounded-xl"
@@ -64,6 +64,7 @@ export function GeminiProVision() {
                 type="text"
                 inputPadding={1}
                 className="border border-green-500 bg-black"
+                disable={loading}
               />
               <IconButton
                 type="submit"

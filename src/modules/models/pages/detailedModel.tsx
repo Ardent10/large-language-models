@@ -41,7 +41,7 @@ export function LLM() {
           </div>
         ) : (
           <Box className="flex flex-col items-center justify-center w-full px-16 mt-24">
-            <Typography className="font-semibold md:text-9xl py-8 text-[#64c956]">
+            <Typography className="font-semibold text-2xl sm:text-6xl md:text-9xl py-8 text-[#64c956] uppercase]">
               READ
             </Typography>
 

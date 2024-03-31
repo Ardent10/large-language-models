@@ -1,13 +1,14 @@
 import { Layout } from "@/modules/common/layout/layout";
+import { CustomTabs } from "@/modules/common/tabs/index.tsx";
+import { useAppState } from "@/store/index.tsx";
 import { CreateModelSchema } from "@/utils/validations/index.tsx";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Grid } from "@mui/material";
+import { Box, Grid, Typography, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { CreateModelForm } from "../components/createModelForm.tsx";
 import { CreateModelPreview } from "../components/createModelPreview/index.tsx";
-import { useAppState } from "@/store/index.tsx";
-import { useNavigate } from "react-router-dom";
 
 export interface Model {
   id?: string;
@@ -27,6 +28,7 @@ export interface Model {
 
 export function CreateModel() {
   const [state] = useAppState();
+  const isMobile = useMediaQuery("(max-width:768px)");
   const [previewImage, setPreviewImage] = useState("");
   const navigate = useNavigate();
 
@@ -60,13 +62,13 @@ export function CreateModel() {
   }
 
   useEffect(() => {
-    if (!(state?.userProfile?.user_type=== "provider")) {
+    if (!(state?.userProfile?.user_type === "provider")) {
       navigate("/");
     }
     handleImageChange();
   }, [watch("header_image")]);
 
-  const model: Model = {
+  const modelPreviewData: Model = {
     name: watch("name"),
     header_image:
       previewImage ||
@@ -83,22 +85,52 @@ export function CreateModel() {
     created_at: new Date().toISOString(),
   };
 
+  const MobileTabs = [
+    {
+      label: "Form",
+      component: (
+        <CreateModelForm
+          handleSubmit={handleSubmit}
+          getValues={getValues}
+          control={control}
+          setValue={setValue}
+        />
+      ),
+    },
+    {
+      label: "Preview",
+      component: <CreateModelPreview model={modelPreviewData} />,
+    },
+  ];
+
+
   return (
     <Layout>
-      <div className="flex flex-col items-center justify-center w-full px-16 mt-24">
-        <h1 className="font-semibold md:text-9xl py-8 text-[#64c956]">
+      <Box className="flex flex-col items-center justify-center w-full px-16 mt-24">
+        <Typography className="font-semibold text-2xl sm:text-6xl md:text-9xl py-8 text-[#64c956] uppercase">
           CREATE
-        </h1>
-        <Grid className="flex  w-full gap-8 ">
-          <CreateModelForm
-            handleSubmit={handleSubmit}
-            getValues={getValues}
-            control={control}
-            setValue={setValue}
-          />
-          <CreateModelPreview model={model} />
-        </Grid>
-      </div>
+        </Typography>
+        {isMobile ? (
+          <Grid
+            id="mobile-model-form-preview"
+            className=" flex w-full gap-8 items-center"
+          >
+            <CustomTabs
+              tabs={MobileTabs}
+            />
+          </Grid>
+        ) : (
+          <Grid id="model-form-preview" className="flex w-full gap-8 ">
+            <CreateModelForm
+              handleSubmit={handleSubmit}
+              getValues={getValues}
+              control={control}
+              setValue={setValue}
+            />
+            <CreateModelPreview model={modelPreviewData} />
+          </Grid>
+        )}
+      </Box>
     </Layout>
   );
 }

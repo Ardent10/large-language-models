@@ -10,11 +10,13 @@ import { useForm } from "react-hook-form";
 interface GenerateModelFormProps {
   modelApiFunction: (search: string) => void;
   customOnSubmit?: () => void;
+  isLoading?: boolean;
 }
 
 export function GenerateModelForm({
   modelApiFunction,
   customOnSubmit,
+  isLoading,
 }: GenerateModelFormProps) {
   const [state] = useAppState();
 
@@ -53,6 +55,7 @@ export function GenerateModelForm({
               type="text"
               inputPadding={1}
               className="border border-green-500 bg-black"
+              disable={isLoading}
             />
             <IconButton
               type="submit"

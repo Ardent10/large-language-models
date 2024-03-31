@@ -55,7 +55,6 @@ export function LoginPage() {
           className="h-full sm:p-8 lg:p-32"
           sx={{
             backgroundImage: { xs: "url(/assets/matrix-bg.webp)", md: "none" },
-            border: "1px solid green",
           }}
         >
           <Grid

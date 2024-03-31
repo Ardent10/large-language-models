@@ -1,14 +1,13 @@
 import { PrimaryButton } from "@/modules/common/button";
+import { Logo } from "@/modules/common/layout/logo";
 import { CustomSnackbar } from "@/modules/common/snackbar";
-import { VideoPlayer } from "@/modules/common/videoPlayer";
+import { ColorModeContext } from "@/modules/common/theme";
 import { useAppState } from "@/store";
 import LoginIcon from "@mui/icons-material/Login";
 import { Box, Grid, Typography } from "@mui/material";
+import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SignupForm } from "../components/signupForm";
-import { useContext } from "react";
-import { ColorModeContext } from "@/modules/common/theme";
-import { Logo } from "@/modules/common/layout/logo";
 
 export function SignupPage() {
   const { mode } = useContext(ColorModeContext);
@@ -25,7 +24,6 @@ export function SignupPage() {
         vertical="bottom"
         horizontal="right"
       />
-
 
       <Grid container className="h-screen md:visible">
         <PrimaryButton
@@ -44,9 +42,9 @@ export function SignupPage() {
             border: "1px solid green",
           }}
         >
-          <div className="absolute z-20 top-8 left-8 flex items-center ">
+          <Box className="absolute z-20 top-8 left-8 flex items-center ">
             <Logo />
-          </div>
+          </Box>
         </Grid>
         <Grid
           item
@@ -56,7 +54,6 @@ export function SignupPage() {
           className="h-full sm:p-8 lg:p-32"
           sx={{
             backgroundImage: { xs: "url(/assets/matrix-bg.webp)", md: "none" },
-            border: "1px solid green",
           }}
         >
           <Grid
@@ -68,10 +65,10 @@ export function SignupPage() {
               variant="h1"
               className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold dark:text-[#47f738]"
             >
-              Welcome Back
+              Matrix Awaits
             </Typography>
             <Typography variant="body2" className="text-sm text-center">
-              It's time to take the pill and see how deep the rabbit hole goes.
+              Unlock Your Digital Identity and Enter the Matrix
             </Typography>
           </Grid>
           <Grid item xs={12} px={4}>

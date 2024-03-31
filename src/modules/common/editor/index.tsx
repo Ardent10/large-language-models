@@ -1,23 +1,21 @@
-import { CircularProgress } from "@mui/material";
 import { Editor } from "@tinymce/tinymce-react";
 import { useState } from "react";
+import { Loader } from "../loader";
 
 interface RichTextEditorProps {
   setValue: any;
-  control: any;
+  getValues: any;
 }
 
-export function RichTextEditor({ setValue, control }: RichTextEditorProps) {
+export function RichTextEditor({ setValue, getValues }: RichTextEditorProps) {
   const editorApiKey = import.meta.env.VITE_TINYMCE_API_KEY;
-  const [text, setEditorText] = useState("");
   const [isLoading, setLoading] = useState(true);
 
   return (
     <div className="relative flex flex-col w-full items-center justify-center shadow-md border border-green-600 rounded-xl">
       {isLoading && (
         <div className="h-80  w-full flex flex-col items-center justify-center">
-          <CircularProgress size={30} sx={{ color: "#fff" }} />
-          Loading Editor...
+          <Loader componentLoader={true} />
         </div>
       )}
       <div className="w-full">
@@ -25,12 +23,11 @@ export function RichTextEditor({ setValue, control }: RichTextEditorProps) {
           apiKey={editorApiKey}
           onEditorChange={(content, editor) => {
             setValue("content", content);
-            setEditorText(editor.getContent({ format: "text" }));
           }}
           onInit={(evt, editor) => {
             setLoading(false);
-            setEditorText(editor.getContent({ format: "text" }));
           }}
+          value={getValues("content") || ""}
           init={{
             plugins:
               "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown",

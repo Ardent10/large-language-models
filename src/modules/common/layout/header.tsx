@@ -45,7 +45,7 @@ export function Header(props: HeaderProps) {
             aria-controls="mobile-menu"
             onClick={handleToggleMobileNavbar}
             color="inherit"
-            className="xs:flex md:flex lg:hidden xl:hidden"
+            className="flex sm:hidden md:hidden lg:hidden xl:hidden"
           >
             {toggleMobileNavbar ? <CloseRoundedIcon /> : <MenuOpenIcon />}
           </IconButton>
@@ -54,14 +54,14 @@ export function Header(props: HeaderProps) {
 
           <Box
             sx={{
-              display: { xs: "none", md: "flex" },
+              display: { xs: "none", sm: "hidden", md: "flex" },
               flex: 1,
               justifyContent: "center",
             }}
           >
             <Navbar navbarFilterByUserType={navbarFilterByUserType} />
           </Box>
-          <Box className="flex justify-end sm:w-40">
+          <Box className="flex justify-end md:w-40">
             <ProfileMenu />
           </Box>
         </Box>
@@ -84,13 +84,20 @@ const Navbar = ({
   const location = useLocation();
 
   return (
-    <NavigationMenu.Root className="relative z-[1] flex  justify-center">
-      <NavigationMenu.List className="center shadow-blackA4 m-0 flex list-none rounded-[6px]  p-1 ">
+    <NavigationMenu.Root
+      id="navigation-root"
+      className="relative z-[1] flex  justify-center"
+    >
+      <NavigationMenu.List
+        id="navigation-list"
+        className="center shadow-blackA4 m-0 flex-col items-center flex sm:flex-row list-none rounded-[6px]  p-1 "
+      >
         {navbarFilterByUserType.map((navItem) => (
           <React.Fragment key={navItem.title}>
-            <NavigationMenu.Item>
+            <NavigationMenu.Item id="navigation-item">
               <Link to={navItem.href}>
                 <NavigationMenu.Trigger
+                  id="navigation-trigger"
                   className={`${
                     location.pathname === navItem.href &&
                     "underline text-green-600"
@@ -104,6 +111,7 @@ const Navbar = ({
                 </NavigationMenu.Trigger>
               </Link>
               <NavigationMenu.Content
+                id="navigation-content"
                 className="flex sm:flex-col  rounded data-[motion=from-start]:animate-enterFromLeft
               data-[motion=from-end]:animate-enterFromRight data-[motion=to-start]:animate-exitToLeft
               data-[motion=to-end]:animate-exitToRight absolute top-0 left-0 w-full sm:w-auto"

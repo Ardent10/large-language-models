@@ -87,7 +87,7 @@ export function CreateModelForm({
               <span className="text-red-600">*</span>
             </Typography>
 
-            <RichTextEditor setValue={setValue} control={control} />
+            <RichTextEditor setValue={setValue} getValues={getValues}/>
           </div>
 
           <div className="flex gap-2 items-center">
