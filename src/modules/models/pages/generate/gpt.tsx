@@ -4,10 +4,20 @@ import { useAppState } from "@/store";
 import { Box, Paper, Typography } from "@mui/material";
 import { GenerateModelForm } from "../../components/generateModelForm";
 import { useAIModels } from "../../hooks";
+import { useEffect } from "react";
 
 export function GPT() {
   const [state] = useAppState();
   const { Gpt, loading } = useAIModels();
+  useEffect(() => {
+    // Clean up the prompt result from previous model
+    dispatch({
+      type: "setPromptResult",
+      payload: {
+        promptResult: null,
+      },
+    });
+  }, []);
   return (
     <Layout>
       <Box className="flex flex-col items-center justify-center w-full px-16 mt-24">
@@ -51,3 +61,7 @@ export function GPT() {
     </Layout>
   );
 }
+function dispatch(arg0: { type: string; payload: { promptResult: null; }; }) {
+  throw new Error("Function not implemented.");
+}
+

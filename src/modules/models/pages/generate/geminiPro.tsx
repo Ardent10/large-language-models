@@ -5,10 +5,20 @@ import { Box, Paper, Typography } from "@mui/material";
 import { GenerateModelForm } from "../../components/generateModelForm";
 import { useAIModels } from "../../hooks";
 import DOMPurify from "dompurify";
+import { useEffect } from "react";
 
 export function GeminiPro() {
-  const [state] = useAppState();
+  const [state,dispatch] = useAppState();
   const { GeminiPro, loading } = useAIModels();
+  useEffect(() => {
+    // Clean up the prompt result from previous model
+    dispatch({
+      type: "setPromptResult",
+      payload: {
+        promptResult: null,
+      },
+    });
+  }, []);
 
   const createMarkup = (html: string) => {
     const sanitizedHtml = DOMPurify.sanitize(html);

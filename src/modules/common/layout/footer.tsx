@@ -5,7 +5,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 export function Footer() {
   return (
     <div>
-      <footer className="mt-8 mr-12 ml-12  border-t border-l border-r  border-green-600  rounded-t-xl shadow ">
+      <footer className="mt-8 mx-3 sm:mx-12  border-t border-l border-r  border-green-600  rounded-t-xl shadow ">
         <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
           <div className="sm:flex sm:items-center sm:justify-between">
             <a

@@ -25,7 +25,7 @@ export function GenerateModels() {
             <Loader />
           </div>
         ) : (
-          <Box className="flex flex-col items-center justify-center w-full px-16 mt-24">
+          <Box className="flex flex-col items-center justify-center w-full px-8 sm:px-16 mt-24">
             <Typography className="font-semibold text-2xl sm:text-6xl md:text-9xl py-8 text-[#64c956] uppercase">
               CHOOSE
             </Typography>
@@ -42,9 +42,9 @@ export function GenerateModels() {
                 >
                   <Link to={model.href}>
                     <Card
-                      sx={{ maxWidth: 345, minHeight: "16rem" }}
+                      sx={{ maxWidth: 345, minHeight: "16rem", height: "100%" }}
                       key={model.id}
-                      className="border border-green-600 rounded-xl"
+                      className="border border-green-600 rounded-xl h-full"
                     >
                       <CardActionArea>
                         <CardMedia

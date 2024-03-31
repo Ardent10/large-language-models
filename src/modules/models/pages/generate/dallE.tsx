@@ -2,14 +2,22 @@ import { Layout } from "@/modules/common/layout/layout";
 import { Loader } from "@/modules/common/loader";
 import { useAppState } from "@/store";
 import { Box, Paper, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { GenerateModelForm } from "../../components/generateModelForm";
 import { useAIModels } from "../../hooks";
 
 export function DallE() {
-  const [state] = useAppState();
+  const [state, dispatch] = useAppState();
   const { DallE, loading } = useAIModels();
-  console.log("DALLE=> ", state.prompResult);
-
+  useEffect(() => {
+    // Clean up the prompt result from previous model
+    dispatch({
+      type: "setPromptResult",
+      payload: {
+        promptResult: null,
+      },
+    });
+  }, []);
   return (
     <Layout>
       <Box className="flex flex-col items-center justify-center w-full px-16 mt-24">

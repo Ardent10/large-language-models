@@ -7,7 +7,7 @@ import { ChipSelector } from "@/modules/common/select/chipSelector";
 import { CustomSnackbar } from "@/modules/common/snackbar";
 import { useAppState } from "@/store";
 import { ModelTags } from "@/utils/constants";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useModels } from "../../hooks";
 
 export interface Model {
@@ -44,8 +44,7 @@ export function CreateModelForm({
   const onSubmit = handleSubmit(async (data: Model) => {
     const content = getValues("content");
     data.content = content;
-
-    // createModel(data);
+    createModel(data);
   });
 
   return (
@@ -59,7 +58,7 @@ export function CreateModelForm({
         vertical="bottom"
         horizontal="right"
       />
-      <div className="w-full px-4 border border-green-600 rounded-xl shadow-md">
+      <Box id='create-model-form-container' className="w-full px-4 border border-green-600 rounded-xl shadow-md">
         <form
           onSubmit={onSubmit}
           className="max-w-[1/2] w-full grid gap-4 h-full py-8"
@@ -187,7 +186,7 @@ export function CreateModelForm({
             disabled={state?.isLoading}
           />
         </form>
-      </div>
+      </Box>
     </>
   );
 }

@@ -8,11 +8,22 @@ import { Box, IconButton, Paper, Typography } from "@mui/material";
 import DOMPurify from "dompurify";
 import { useForm } from "react-hook-form";
 import { useAIModels } from "../../hooks";
+import { useEffect } from "react";
 
 export function GeminiProVision() {
-  const [state] = useAppState();
+  const [state,dispatch] = useAppState();
   const { GeminiProVision, loading } = useAIModels();
   const { control, handleSubmit, getValues } = useForm({});
+
+  useEffect(() => {
+    // Clean up the prompt result from previous model
+    dispatch({
+      type: "setPromptResult",
+      payload: {
+        promptResult: null,
+      },
+    });
+  }, []);
 
   const onSubmit = handleSubmit(async (data) => {
     const search = getValues("search");

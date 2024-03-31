@@ -18,16 +18,3 @@ export function Hero() {
     </>
   );
 }
-
-{
-  /* <div
-  className=" bottom-5 inset-0 h-full w-full items-center px-5 py-24"
-  style={{
-    background:
-      "radial-gradient(125% 125% at 50% 90%, #000 40%, #54bf53 100%)",
-  }}
-/> */
-}
-{
-  /* <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-green-600 to-blue-500"></div> */
-}
