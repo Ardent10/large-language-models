@@ -2,8 +2,10 @@ import { Layout } from "@/modules/common/layout/layout";
 import { Loader } from "@/modules/common/loader";
 import { useAppState } from "@/store";
 import { Box, Typography } from "@mui/material";
-import { ModelCard } from "../components/modelCard";
 import { useModels } from "../hooks";
+import { Suspense, lazy } from "react";
+
+const ModelCard = lazy(() => import("../components/modelCard"));
 
 export function BookmarkModels() {
   const { getModels, loading } = useModels();
@@ -21,9 +23,11 @@ export function BookmarkModels() {
               REVISIT
             </Typography>
 
-            <Box py={4}>
-              <ModelCard modelData={state?.parentModels} />
-            </Box>
+            <Suspense fallback={<Loader />}>
+              <Box py={4} id="model-cards-container">
+                <ModelCard modelData={state?.parentModels} />
+              </Box>
+            </Suspense>
           </Box>
         )}
       </Box>

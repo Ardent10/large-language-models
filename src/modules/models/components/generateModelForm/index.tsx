@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import KeyboardDoubleArrowRightRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowRightRounded";
 import { Box, IconButton } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { ResetForm } from "../resetModelForm";
 
 interface GenerateModelFormProps {
   modelApiFunction: (search: string) => void;
@@ -20,7 +21,7 @@ export function GenerateModelForm({
 }: GenerateModelFormProps) {
   const [state] = useAppState();
 
-  const { handleSubmit, control, getValues, setValue } = useForm({
+  const { handleSubmit, control, getValues, setValue, reset } = useForm({
     mode: "onBlur",
     resolver: zodResolver(SearchSchema),
   });
@@ -31,6 +32,7 @@ export function GenerateModelForm({
     } else {
       modelApiFunction(data.search);
     }
+    reset();
   });
 
   return (
@@ -44,7 +46,13 @@ export function GenerateModelForm({
         vertical="bottom"
         horizontal="right"
       />
-      <div className="w-full   rounded-xl ">
+      <Box className="w-full   rounded-xl relative">
+        <ResetForm
+          reset={reset}
+          defaultValues={{ search: "" }}
+          className="top-8"
+        />
+
         <form onSubmit={onSubmit} className="max-w-[1/2] w-full  py-8">
           <Box className=" relative">
             <InputField
@@ -71,7 +79,7 @@ export function GenerateModelForm({
             </IconButton>
           </Box>
         </form>
-      </div>
+      </Box>
     </>
   );
 }

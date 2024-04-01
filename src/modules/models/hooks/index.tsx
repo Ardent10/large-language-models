@@ -10,7 +10,6 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import fs from "fs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -311,7 +310,6 @@ export function useAIModels() {
       let text = "";
       for await (const chunk of result.stream) {
         const chunkText = chunk.text();
-        console.log(chunkText);
         text += chunkText;
 
         dispatch({
@@ -320,6 +318,7 @@ export function useAIModels() {
             text: text,
           },
         });
+        setLoading(false);
       }
     } catch (error) {
       dispatch({
@@ -335,29 +334,39 @@ export function useAIModels() {
     }
   }
 
-  function fileToGenerativePart(path: string, mimeType: string) {
+  // Converts a File object to a GoogleGenerativeAI.Part object.
+  // Converts a File object to a GoogleGenerativeAI.Part object.
+  async function fileToGenerativePart(
+    file: File
+  ): Promise<{ inlineData: { data: string; mimeType: string } }> {
+    const base64EncodedDataPromise = new Promise<string>((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () =>
+        resolve(reader.result?.toString().split(",")[1] || "");
+      reader.readAsDataURL(file);
+    });
     return {
-      inlineData: {
-        data: Buffer.from(fs.readFileSync(path)).toString("base64"),
-        mimeType,
-      },
+      inlineData: { data: await base64EncodedDataPromise, mimeType: file.type },
     };
   }
 
   async function GeminiProVision({
     promptString,
-    img,
+    imgFiles,
   }: {
     promptString: string;
-    img?: File;
+    imgFiles: File[];
   }) {
     try {
+      setLoading(true);
       const model = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
       const prompt = promptString;
-      const imageParts = [
-        fileToGenerativePart("/assets/navbar/cat.webp", "image/webp"),
-        // fileToGenerativePart("image2.jpeg", "image/jpeg"),
-      ];
+
+      // Convert the image files to GenerativeAI parts.
+      const imagePartsPromises = imgFiles.map(fileToGenerativePart);
+      const imageParts = await Promise.all(imagePartsPromises);
+
+      // Generate the content.
       const result = await model.generateContent([prompt, ...imageParts]);
       const response = await result.response;
       const text = response.text();
@@ -365,6 +374,7 @@ export function useAIModels() {
         type: "setPromptResult",
         payload: { text: text },
       });
+      setLoading(false);
     } catch (error) {
       dispatch({
         type: "setToggleSnackbar",
@@ -374,6 +384,8 @@ export function useAIModels() {
           message: "An error occurred while generating the prompt.",
         },
       });
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -436,7 +448,6 @@ export function useAIModels() {
     }
   }
   async function DallE(prompt: string) {
-    console.log("DallE prompt=> ", prompt);
     try {
       setLoading(true);
       const response = await fetch(

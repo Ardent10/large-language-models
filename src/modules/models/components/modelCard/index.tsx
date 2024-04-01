@@ -54,7 +54,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-export function ModelCard({ modelData }: ModelCardProps) {
+export default function ModelCard({ modelData }: ModelCardProps) {
   const [expanded, setExpanded] = useState<number | null>(null);
 
   const handleExpandClick = (idx: number) => {

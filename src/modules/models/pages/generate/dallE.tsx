@@ -11,12 +11,14 @@ export function DallE() {
   const { DallE, loading } = useAIModels();
   useEffect(() => {
     // Clean up the prompt result from previous model
-    dispatch({
-      type: "setPromptResult",
-      payload: {
-        promptResult: null,
-      },
-    });
+    if (state?.promptResult?.text) {
+      dispatch({
+        type: "setPromptResult",
+        payload: {
+          promptResult: null,
+        },
+      });
+    }
   }, []);
   return (
     <Layout>

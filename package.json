@@ -22,6 +22,7 @@
     "dompurify": "^3.0.11",
     "firebase": "^10.9.0",
     "framer-motion": "^11.0.24",
+    "marked": "^12.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",

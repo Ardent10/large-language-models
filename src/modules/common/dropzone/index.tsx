@@ -1,7 +1,8 @@
 import { useAppState } from "@/store";
 import { MAX_IMAGE_SIZE } from "@/utils/constants";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Controller } from "react-hook-form";
@@ -11,9 +12,10 @@ interface props {
   setDragAndDropFiles?: any;
   name: string;
   control: any;
+  removeAllImg?: boolean;
 }
 
-export function Dropzone({ setDragAndDropFiles, name, control }: props) {
+export function Dropzone({ setDragAndDropFiles, name, control,removeAllImg }: props) {
   const [file, setFile] = useState<File | null>(null);
   const [state, dispatch] = useAppState();
   const onDrop = (acceptedFiles: { name: string }[]) => {
@@ -24,7 +26,7 @@ export function Dropzone({ setDragAndDropFiles, name, control }: props) {
   });
 
   function handleHeaderImageChange(file: File | null) {
-       if (!file) {
+    if (!file) {
       // If no file is selected, reset state and return
       setFile(null);
       return;
@@ -64,6 +66,17 @@ export function Dropzone({ setDragAndDropFiles, name, control }: props) {
     }
     setFile(file);
     return file;
+  }
+
+  function removeImage() {
+    if(removeAllImg) {
+      setDragAndDropFiles(null);
+      setFile(null);
+    }
+    else{
+      setDragAndDropFiles(null);
+      setFile(null);
+    }
   }
 
   return (
@@ -122,10 +135,20 @@ export function Dropzone({ setDragAndDropFiles, name, control }: props) {
                     <Typography fontSize={16} fontWeight={500} color="green">
                       {Math.floor(file.size / 1000)} KB
                     </Typography>
+                    <IconButton
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeImage();
+                      }}
+                    >
+                      <ClearRoundedIcon fontSize="large" />
+                    </IconButton>
                   </>
                 ) : (
                   <>
-                    <FileUploadOutlinedIcon fontSize="large" />
+                    <IconButton>
+                      <FileUploadOutlinedIcon fontSize="large" />
+                    </IconButton>
                     <Typography fontSize={16} fontWeight={500} color="#fff">
                       {isDragActive
                         ? "Drop the files here..."

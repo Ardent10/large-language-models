@@ -55,4 +55,9 @@ const SearchSchema = z.object({
   search: z.string().nonempty(),
 });
 
-export { CreateModelSchema, LoginSchema, SignupSchema, SearchSchema };
+const GemniProVisionSchema = z.object({
+  promptString: z.string(),
+  gemini_pro_vision_img: z.instanceof(File),
+});
+
+export { CreateModelSchema, LoginSchema, SignupSchema, SearchSchema,GemniProVisionSchema };
