@@ -14,9 +14,7 @@ export function Home() {
         }}
       >
         <Hero />
-        <Section title="LEARN">
-         Framer ka cards
-        </Section>
+        
         <Section title="WHAT?">
           <AppDescription />
         </Section>
