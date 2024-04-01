@@ -8,11 +8,20 @@ interface props {
   format: string | undefined;
   dateTime: string | Date | undefined;
   fontSize?: number;
+  color?: string;
 }
 
-export const DateTimeFormat = ({ dateTime, format, fontSize }: props) => {
+export const DateTimeFormat = ({
+  dateTime,
+  format,
+  fontSize,
+  color,
+}: props) => {
   return (
-    <Typography fontSize={fontSize ? fontSize : 12} color={"#64c956"}>
+    <Typography
+      fontSize={fontSize ? fontSize : 12}
+      color={color ? color : "#64c956"}
+    >
       {format ? dayjs(dateTime).format(format) : dayjs().to(dayjs(dateTime))}
     </Typography>
   );

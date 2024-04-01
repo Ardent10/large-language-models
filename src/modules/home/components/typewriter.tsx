@@ -1,3 +1,4 @@
+import { DateTimeFormat } from "@/modules/models/components/dateTimeFormat";
 import FolderRoundedIcon from "@mui/icons-material/FolderRounded";
 import { Box, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -37,12 +38,26 @@ const TerminalTypewriter = ({ text }: { text: string }) => {
         </Typography>
       </Box>
 
-      <Box id="terminal-body" className="rounded-b-xl bg-[#2d3e52] p-8">
+      <Box id="terminal-body" className="rounded-b-xl bg-[#2d3e52] p-8 w-full">
         <Typography
           variant="body1"
           fontFamily={"monospace"}
-          className="text-green-600 sm:text-3xl whitespace-pre-wrap"
+          className="text-green-600 sm:text-3xl whitespace-pre-wrap w-full flex items-center"
         >
+          Last login:
+          <DateTimeFormat
+            dateTime={new Date().toUTCString()}
+            format="ddd, MMMM DD hh:mm:ss, YYYY"
+            fontSize={30}
+            color="text-green-600"
+          />
+        </Typography>
+        <Typography
+          variant="body1"
+          fontFamily={"monospace"}
+          className="text-green-600 sm:text-3xl whitespace-pre-wrap w-full"
+        >
+          <br></br>
           {"> " + displayText}
         </Typography>
       </Box>
@@ -59,9 +74,9 @@ export function AppDescription() {
 5. Dedicated models page: Delve deeper into each model's features, capabilities, and potential use cases through detailed documentation and examples. Join us at Large Language Models and experience the future of AI innovation firsthand.`;
 
   return (
-    <Box className="py-8 min-h-[20rem]">
+    <Box className="py-8 min-h-[20rem] w-full">
       <Box className="w-full flex flex-col justify-center items-center">
-        <Box className="overflow-hidden ">
+        <Box className="overflow-hidden w-full">
           <TerminalTypewriter text={description} />
         </Box>
       </Box>
