@@ -42,22 +42,8 @@ const TerminalTypewriter = ({ text }: { text: string }) => {
         <Typography
           variant="body1"
           fontFamily={"monospace"}
-          className="text-green-600 sm:text-3xl whitespace-pre-wrap w-full flex items-center"
-        >
-          Last login:
-          <DateTimeFormat
-            dateTime={new Date().toUTCString()}
-            format="ddd, MMMM DD hh:mm:ss, YYYY"
-            fontSize={30}
-            color="text-green-600"
-          />
-        </Typography>
-        <Typography
-          variant="body1"
-          fontFamily={"monospace"}
           className="text-green-600 sm:text-3xl whitespace-pre-wrap w-full"
         >
-          <br></br>
           {"> " + displayText}
         </Typography>
       </Box>
