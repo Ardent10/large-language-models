@@ -25,9 +25,9 @@ const TerminalTypewriter = ({ text }: { text: string }) => {
         className="bg-white w-full py-1 px-4 sm:px-8 rounded-t-xl flex items-center justify-center relative"
       >
         <Box className="flex absolute left-3">
-          <span className="w-5 h-5 rounded-full bg-red-500 mr-2"></span>
-          <span className="w-5 h-5 rounded-full bg-yellow-500 mr-2"></span>
-          <span className="w-5 h-5 rounded-full bg-green-500"></span>
+          <span className="w-2 h-2 sm:w-5 sm:h-5 rounded-full bg-red-500 mr-2"></span>
+          <span className="w-2 h-2 sm:w-5 sm:h-5 rounded-full bg-yellow-500 mr-2"></span>
+          <span className="w-2 h-2 sm:w-5 sm:h-5 rounded-full bg-green-500"></span>
         </Box>
         <Typography
           variant="body1"
@@ -38,7 +38,10 @@ const TerminalTypewriter = ({ text }: { text: string }) => {
         </Typography>
       </Box>
 
-      <Box id="terminal-body" className="rounded-b-xl bg-[#2d3e52] p-8 w-full">
+      <Box
+        id="terminal-body"
+        className="rounded-b-xl bg-[#2d3e52] p-8 w-full h-[130vh] sm:h-[120vh]"
+      >
         <Typography
           variant="body1"
           fontFamily={"monospace"}
