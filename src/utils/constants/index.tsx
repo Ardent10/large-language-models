@@ -22,6 +22,22 @@ export const NavbarMenu: {
     ],
   },
   {
+    title: "Sub Models",
+    href: "/sub-models",
+    icon: "/assets/navbar/submodels.png",
+    description: "Explore various sub-models and their details.",
+    submenu: [
+      {
+        submenuLabel: "Sub Model Catalog",
+        description: "Browse through available sub-models.",
+      },
+      {
+        submenuLabel: "Sub Model Details",
+        description: "View detailed information on sub-models.",
+      },
+    ],
+  },
+  {
     title: "Create",
     href: "/models/create",
     description: "Create your own LLM model.",

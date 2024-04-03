@@ -7,14 +7,14 @@ import { useModels } from "../hooks";
 // Lazy load the ModelCard component
 const ModelCard = lazy(() => import("../components/modelCard"));
 
-export function AllModels() {
+export function AllSubModels() {
   const [state] = useAppState();
-  const { getModels, loading } = useModels();
+  const { getSubModels, loading } = useModels();
 
   useEffect(() => {
     async function fetchModelsData() {
-      if (state?.parentModels?.length > 0) return;
-      else await getModels();
+      if (state?.subModels?.length > 0) return;
+      else await getSubModels();
     }
     fetchModelsData();
   }, []);
@@ -23,14 +23,14 @@ export function AllModels() {
     <Layout>
       <Box className="flex flex-col items-center justify-center w-full px-8 sm:px-16 mt-24">
         <Typography className="font-semibold text-2xl sm:text-6xl md:text-9xl py-8 text-[#64c956] uppercase">
-          EXPLORE
+         SUB MODELS
         </Typography>
         {loading ? (
           <SkeletonCardLoader />
         ) : (
           <Suspense fallback={<SkeletonCardLoader />}>
             <Box py={4} id="model-cards-container">
-              <ModelCard data={state?.parentModels} />
+              <ModelCard data={state?.subModels} />
             </Box>
           </Suspense>
         )}

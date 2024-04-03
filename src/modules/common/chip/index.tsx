@@ -63,9 +63,9 @@ export function Chips(props: Props) {
             <Chip
               clickable
               sx={{ margin: 0.5, backgroundColor: "#64c956", color: "#FFF" }}
-              key={data.key ? data.key : id}
+              key={data?.key ? data?.key : id}
               icon={data?.icon}
-              label={data.label}
+              label={data?.label}
               onDelete={props.onDelete ? handleDelete(data) : undefined}
             />
           );
@@ -76,7 +76,7 @@ export function Chips(props: Props) {
           sx={{ margin: 0.5, backgroundColor: "#64c956", color: "#FFF" }}
           key={props?.key}
           icon={props?.icon}
-          label={props.label}
+          label={props?.label}
         />
       )}
     </Paper>

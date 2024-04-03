@@ -3,9 +3,9 @@ import { Loader } from "@/modules/common/loader";
 import { useAppState } from "@/store";
 import { Box, Divider, Typography } from "@mui/material";
 import { Suspense, lazy, useEffect, useState } from "react";
-import { Model } from "../components/modelCard";
 import { SkeletonCardLoader } from "../components/modelCard/skeletonCardLoader";
-import { useModels } from "../hooks";
+import { Model, useModels } from "../hooks";
+
 const ModelCard = lazy(() => import("../components/modelCard"));
 
 export function FeaturedModels() {
@@ -40,7 +40,7 @@ export function FeaturedModels() {
           ) : (
             <Suspense fallback={<SkeletonCardLoader />}>
               <Box py={4} id="model-featured-container">
-                <ModelCard modelData={state?.parentModels} />
+                <ModelCard data={state?.parentModels} />
               </Box>
             </Suspense>
           )}

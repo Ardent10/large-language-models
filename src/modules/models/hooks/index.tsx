@@ -5,6 +5,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   query,
   updateDoc,
@@ -29,7 +30,23 @@ export interface Model {
   access_type: string;
 }
 
+export interface SubModel {
+  id?: string | undefined;
+  name: string;
+  header_image: string;
+  content: string;
+  publish_date: string;
+  created_at: string;
+  likes: number;
+  parents_blog: string;
+  parent_id?: string;
+  tags: string[];
+  status: string;
+}
+
 const MODELS_COLLECTION = import.meta.env.VITE_FIREBASE_MODEL_COLLECTION_NAME;
+const SUBMODELS_COLLECTION = import.meta.env
+  .VITE_FIREBASE_SUBMODEL_COLLECTION_NAME;
 
 export function useModels() {
   const db = useFirestore();
@@ -69,6 +86,45 @@ export function useModels() {
             new Date(a.published_date).getTime()
         );
       dispatch({ type: "setParentModels", payload: modelsData });
+      setLoading(false);
+    } catch (error) {
+      const currentError = error as Error;
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: currentError.message,
+        },
+      });
+      setLoading(false);
+    }
+  }
+
+  async function getSubModels() {
+    try {
+      setLoading(true);
+      const modelsCollection = await collection(db, SUBMODELS_COLLECTION);
+      const modelsQuery = query(modelsCollection);
+      const snapshot = await getDocs(modelsQuery);
+      const subModelsData: SubModel[] = snapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          name: data.name,
+          header_image: data.header_image,
+          tags: data.tags,
+          parents_blog: data.parent_blog,
+          parent_id: data.parent_id,
+          publish_date: data.publish_date,
+          content: data.content[0]?.value,
+          created_at: data.created_at,
+          likes: data.likes,
+          status: data.status,
+        };
+      });
+
+      dispatch({ type: "setSubModels", payload: subModelsData });
       setLoading(false);
     } catch (error) {
       const currentError = error as Error;
@@ -217,13 +273,13 @@ export function useModels() {
   async function getModelById(id: string) {
     try {
       setLoading(true);
-      const modelsCollection = await collection(db, MODELS_COLLECTION);
-      const modelsQuery = query(modelsCollection);
-      const snapshot = await getDocs(modelsQuery);
-      const modelsData: Model[] = snapshot.docs.map((doc) => {
-        const data = doc.data();
-        return {
-          id: doc.id,
+      const docRef = doc(db, MODELS_COLLECTION, id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const model: Model = {
+          id: docSnap.id,
           name: data.name,
           header_image: data.header_image,
           tags: data.tags,
@@ -237,10 +293,11 @@ export function useModels() {
           status: data.status,
           access_type: data.access_type,
         };
-      });
-      const model = modelsData.find((model) => model.id === id);
-      setLoading(false);
-      return model;
+        setLoading(false);
+        return model;
+      } else {
+        throw new Error("Model not found");
+      }
     } catch (error) {
       const currentError = error as Error;
       dispatch({
@@ -255,7 +312,47 @@ export function useModels() {
     }
   }
 
-  async function likeModel(id: string) {
+  async function getSubModelById(id: string) {
+    try {
+      setLoading(true);
+      const docRef = doc(db, SUBMODELS_COLLECTION, id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        const model: SubModel = {
+          id: docSnap.id,
+          name: data.name,
+          header_image: data.header_image,
+          tags: data.tags,
+          parents_blog: data.parent_blog,
+          parent_id: data.parent_id,
+          publish_date: data.publish_date,
+          content: data.content[0]?.value,
+          created_at: data.created_at,
+          likes: data.likes,
+          status: data.status,
+        };
+        setLoading(false);
+        return model;
+      } else {
+        throw new Error("Model not found");
+      }
+    } catch (error) {
+      const currentError = error as Error;
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: currentError.message,
+        },
+      });
+      setLoading(false);
+    }
+  }
+
+  async function increaseViewsForModel(id: string) {
     try {
       setLoading(true);
       const model = await getModelById(id);
@@ -265,7 +362,57 @@ export function useModels() {
         await updateDoc(modelDocRef, {
           likes: model.likes + 1,
         });
-        await getModels();
+
+        dispatch({
+          type: "setParentModels",
+          payload: state.parentModels?.map((m: Model) => {
+            if (m.id === id) {
+              return {
+                ...m,
+                likes: m.likes + 1,
+              };
+            }
+            return m;
+          }),
+        });
+      }
+    } catch (error) {
+      const currentError = error as Error;
+      dispatch({
+        type: "setToggleSnackbar",
+        payload: {
+          open: true,
+          severity: "error",
+          message: currentError.message,
+        },
+      });
+
+      setLoading(false);
+    }
+  }
+
+  async function increaseViewsForSubModels(id: string) {
+    try {
+      setLoading(true);
+      const model = await getSubModelById(id);
+      if (model) {
+        const modelsCollection = collection(db, SUBMODELS_COLLECTION);
+        const modelDocRef = doc(modelsCollection, id);
+        await updateDoc(modelDocRef, {
+          likes: model.likes + 1,
+        });
+        dispatch({
+          type: "setSubModels",
+          payload: state.subModels?.map((m: SubModel) => {
+            if (m.id === id) {
+              return {
+                ...m,
+                likes: m.likes + 1,
+              };
+            }
+            return m;
+          }),
+        });
       }
     } catch (error) {
       const currentError = error as Error;
@@ -290,7 +437,9 @@ export function useModels() {
     getModels,
     getModelById,
     uploadImage,
-    likeModel,
+    increaseViewsForModel,
+    increaseViewsForSubModels,
+    getSubModels,
   };
 }
 

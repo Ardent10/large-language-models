@@ -1,21 +1,33 @@
 import { Chips } from "@/modules/common/chip";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useAppState } from "@/store";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Box, IconButton, Typography } from "@mui/material";
 import DOMPurify from "dompurify";
+import { Link } from "react-router-dom";
 import { Model } from "../../components/modelCard";
+import { SubModel } from "../../hooks";
 import { DateTimeFormat } from "../dateTimeFormat";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export function ModelTemplate({ model }: { model: Model }) {
+  const [state] = useAppState();
   const mode = "dark";
   const createMarkup = (html: string) => {
     const sanitizedHtml = DOMPurify.sanitize(html);
     return { __html: sanitizedHtml };
   };
 
+  const subModels = state?.subModels?.filter(
+    (subModel: SubModel) => subModel?.parent_id === model?.id
+  );
   return (
-    <Box p={3} height={'100%'} bgcolor={"black"} border={"1px solid green"} borderRadius={3}>
+    <Box
+      p={3}
+      height={"100%"}
+      bgcolor={"black"}
+      border={"1px solid green"}
+      borderRadius={3}
+    >
       {model ? (
         <Box className="max-w-3xl mx-auto px-4 py-8">
           <Box className="flex flex-col text-white">
@@ -64,15 +76,6 @@ export function ModelTemplate({ model }: { model: Model }) {
               />
             </Box>
 
-            <Box className="flex items-center">
-              <IconButton aria-label="love">
-                < VisibilityIcon />
-              </IconButton>
-              <Typography color="#64c956" fontSize={16} fontWeight={500}>
-                {model.likes}
-              </Typography>
-            </Box>
-
             <Box className="flex" gap={1}>
               <Typography fontSize={16} fontWeight={500}>
                 Parameters:
@@ -88,7 +91,30 @@ export function ModelTemplate({ model }: { model: Model }) {
                 {model.access_type}
               </Typography>
             </Box>
+            {subModels?.length > 0 && (
+              <Box className="flex" gap={1}>
+                <Typography fontSize={16}>Sub Models:</Typography>
+                <Typography fontSize={16} color={"#64c956"}>
+                  {subModels.map((subModel: SubModel) => (
+                    <Link
+                      to={`/models/${model.id}/${subModel.id}`}
+                      className="text-[#64c956] hover:underline items-center flex"
+                    >
+                      {subModel.name}
+                    </Link>
+                  ))}
+                </Typography>
+              </Box>
+            )}
 
+            <Box className="flex items-center">
+              <IconButton aria-label="love">
+                <VisibilityIcon />
+              </IconButton>
+              <Typography color="#64c956" fontSize={16} fontWeight={500}>
+                {model.likes}
+              </Typography>
+            </Box>
             <Box className="flex py-2 items-center" gap={1}>
               <Typography fontSize={16} fontWeight={500}>
                 Tags:
@@ -102,7 +128,7 @@ export function ModelTemplate({ model }: { model: Model }) {
             <Box
               className={`text-lg text-white font-normal whitespace-pre-wrap ${
                 mode === "dark"
-                  ? "[&>pre]:bg-[#666666] [&>pre]:rounded-xl [&>pre]:p-4 "
+                  ? "[&>pre]:bg-[#2d3e52] [&>pre]:rounded-xl [&>pre]:p-4 "
                   : "[&>pre]:text-black "
               } [&>pre]:whitespace-pre-wrap [&>code]:whitespace-break-spaces`}
               dangerouslySetInnerHTML={createMarkup(model.content)}

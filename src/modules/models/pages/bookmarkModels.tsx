@@ -25,7 +25,7 @@ export function BookmarkModels() {
 
             <Suspense fallback={<Loader />}>
               <Box py={4} id="model-cards-container">
-                <ModelCard modelData={state?.parentModels} />
+                <ModelCard data={state?.parentModels} />
               </Box>
             </Suspense>
           </Box>

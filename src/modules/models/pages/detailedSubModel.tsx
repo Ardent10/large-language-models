@@ -7,10 +7,10 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ModelTemplate } from "../components/modelTemplate";
+import { SubModelTemplate } from "../components/subModelTemplate";
 import { Model, useModels } from "../hooks";
 
-export function LLM() {
+export function SubModel() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -18,19 +18,19 @@ export function LLM() {
     restDelta: 0.001,
   });
   const [state] = useAppState();
+  const { increaseViewsForSubModels } = useModels();
   const navigate = useNavigate();
-  const { increaseViewsForModel } = useModels();
-  const { modelId } = useParams<{ modelId: string }>();
-  const currentModel = state?.parentModels?.find(
-    (model: Model) => model.id === modelId
+  const { subModelId } = useParams<{ subModelId: string }>();
+  const currentModel = state?.subModels?.find(
+    (model: Model) => model.id === subModelId
   );
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (modelId && !!currentModel) {
-      increaseViewsForModel(modelId);
+    if (subModelId && !!currentModel) {
+      increaseViewsForSubModels(subModelId);
     }
-  }, [modelId]);
+  }, [subModelId]);
 
   return (
     <>
@@ -44,7 +44,7 @@ export function LLM() {
             <Loader />
           </div>
         ) : (
-          <Box className="flex flex-col items-center justify-center w-full px-16 mt-24 ">
+          <Box className="flex flex-col items-center justify-center w-full px-16 mt-24">
             <Box className="relative max-w-3xl w-full items-center justify-center text-center">
               <CustomTooltip label="Go back" placement="top">
                 <IconButton
@@ -55,11 +55,11 @@ export function LLM() {
                 </IconButton>
               </CustomTooltip>
               <Typography className="font-semibold text-2xl sm:text-6xl md:text-9xl py-8 text-[#64c956] uppercase]">
-                READ
+                READ 
               </Typography>
             </Box>
 
-            <ModelTemplate model={currentModel} />
+            <SubModelTemplate subModel={currentModel} />
           </Box>
         )}
       </Layout>

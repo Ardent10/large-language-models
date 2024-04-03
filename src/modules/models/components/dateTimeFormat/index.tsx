@@ -17,7 +17,6 @@ export const DateTimeFormat = ({
   fontSize,
   color,
 }: props) => {
-  console.log("re rendering?");
   return (
     <Typography
       fontSize={fontSize ? fontSize : 12}

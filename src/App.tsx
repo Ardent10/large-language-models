@@ -11,6 +11,7 @@ import {
   LLM,
   SubModel,
 } from "./modules/models";
+import { AllSubModels } from "./modules/models/pages/allSubModels";
 import { GenerateModelsByModelName } from "./modules/models/pages/generate";
 
 function App() {
@@ -20,9 +21,10 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
       <Route path="models" element={<AllModels />} />
+      <Route path="sub-models" element={<AllSubModels />} />
       <Route path="models/create" element={<CreateModel />} />
       <Route path="models/:modelId" element={<LLM />} />
-      <Route path="models/:modelName/:subModelName" element={<SubModel />} />
+      <Route path="models/:modelId/:subModelId" element={<SubModel />} />
       <Route path="models/bookmarks" element={<BookmarkModels />} />
       <Route path="models/generate" element={<GenerateModels />} />
       <Route
