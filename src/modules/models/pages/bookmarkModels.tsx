@@ -12,11 +12,11 @@ export function BookmarkModels() {
   const [state] = useAppState();
   return (
     <Layout>
-      <Box className="h-screen">
+      <Box id="bookmark-container">
         {loading ? (
-          <div className="text-white h-screen">
+          <Box className="text-white h-screen">
             <Loader />
-          </div>
+          </Box>
         ) : (
           <Box className="flex flex-col items-center justify-center w-full px-16 mt-24">
             <Typography className="font-semibold md:text-9xl py-8 text-[#64c956]">
